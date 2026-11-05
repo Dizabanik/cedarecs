@@ -150,8 +150,7 @@ timing ranges overlap. Both losses are included in the results.
 
 [All nine operations](assets/benchmarks/scaling-entities.svg) ·
 [Large PNG](assets/benchmarks/scaling-entities.png) ·
-[Plotted values](benchmarks/scaling-values.csv) ·
-[Chart source](benchmarks/plot-scaling.py).
+[Plotted values](benchmarks/scaling-values.csv).
 
 These curves use the same 32-round results at 1, 1,024 and 65,536 entities.
 Both axes are logarithmic; lower CPU time is better. Markers show measured

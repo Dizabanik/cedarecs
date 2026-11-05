@@ -2,6 +2,15 @@
 /bench/
 /benchmark/
 
+# Benchmark source and plotting tools. Keep the published data and graphics.
+/benchmarks/**/*.c
+/benchmarks/**/*.cc
+/benchmarks/**/*.cpp
+/benchmarks/**/*.h
+/benchmarks/**/*.hpp
+/benchmarks/**/*.py
+/benchmarks/**/*.sh
+
 # Local builds and benchmark executables.
 /build/
 /bin/
