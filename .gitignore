@@ -1,0 +1,23 @@
+# Benchmark harnesses. Keep published results and README images in Git.
+/bench/
+/benchmark/
+
+# Local builds and benchmark executables.
+/build/
+/bin/
+/obj/
+/benchmarks/build/
+/benchmarks/bin/
+/benchmarks/tmp/
+*.o
+*.obj
+*.d
+*.dSYM/
+
+# Local tooling and temporary files.
+.venv/
+.cache/
+__pycache__/
+*.py[cod]
+*.tmp
+.DS_Store
