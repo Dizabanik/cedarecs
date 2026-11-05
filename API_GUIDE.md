@@ -1,4 +1,6 @@
-# C11 API helpers
+# C11 API guide
+
+[Quick start](README.md#quick-start) · [Reference](docs/REFERENCE.md) · [Examples](examples/)
 
 ## Initialized construction: the core API
 
@@ -11,7 +13,7 @@ ced_Entity player = ced_spawn_with(world,
     ced_tag(Player));
 ```
 
-The new core operation `ced_entity_with_values` resolves and validates the
+The core operation `ced_entity_with_values` resolves and validates the
 complete initializer, associates each value with its component, and inserts
 directly into the final archetype. Components can appear in any order. Invalid
 or duplicate components, wrong registered layouts, and NULL data values return
@@ -63,9 +65,9 @@ follow normal C zero initialization, and pointer ownership stays with the app.
 
 Both construction styles retain the existing spawn/set and raw plan APIs.
 Use the one-shot constructor for convenient initialization and prepare a typed
-bundle for repeated spawning. [Complete example](../examples/initialized_bundles.c).
+bundle for repeated spawning. [Complete example](examples/initialized_bundles.c).
 
-## Existing declaration and query conveniences
+## Declarations and queries
 
 Include `<cedarecs/cedar.h>` to use the complete API, including these convenience
 macros. `<cedarecs/helpers.h>` remains a compatibility include for existing code;
@@ -111,7 +113,7 @@ ced_view_each(active, batch) {
 ced_view_free(active);
 ```
 
-The [complete, compiled example](../examples/api_helpers.c) checks failures and
+The [complete, compiled example](examples/api_helpers.c) checks failures and
 prints `Position: 12, 20`. The existing `ced_each` cached-view idiom remains a
 good choice for simple queries. Keep each new view or plan in application state;
 calling a factory repeatedly repeats the underlying constructor's work.

@@ -61,6 +61,14 @@ Other world maps retain their structural-write exclusion contract. A concurrent
 map does not make arbitrary structural writes thread-safe. Shards have a memory
 cost and are allocated only at promotion; producer buffers retain their locks.
 
+Auto beats forced ordinary mode in 20/24 cases and forced concurrent mode in
+9/24. It is the fastest of the three policies in 9/24 cases. The largest
+measured penalty versus concurrent mode is 60.6% (22.19 versus 13.81 ns per
+operation, two threads, eight worlds, empty command scopes). Automatic selection
+trades peak lookup throughput for avoiding shard allocations before promotion.
+See the [registry policy](../docs/REFERENCE.md#registry-policy) for configuration
+and first-use measurements.
+
 ## Memory
 
 The fresh full memory suite validates **960 processes / 5,865 checkpoints**,

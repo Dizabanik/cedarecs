@@ -1,0 +1,3 @@
+[submodule "kama"]
+	path = kama
+	url = https://github.com/Dizabanik/kama.git
