@@ -149,8 +149,7 @@ timing ranges overlap. Both losses are included in the results.
 ![Component read time across entity counts](assets/benchmarks/scaling-read-one.svg)
 
 [All nine operations](assets/benchmarks/scaling-entities.svg) ·
-[Large PNG](assets/benchmarks/scaling-entities.png) ·
-[Plotted values](benchmarks/scaling-values.csv).
+[Large PNG](assets/benchmarks/scaling-entities.png).
 
 These curves use the same 32-round results at 1, 1,024 and 65,536 entities.
 Both axes are logarithmic; lower CPU time is better. Markers show measured
@@ -178,8 +177,7 @@ values has **3.13×** the throughput of the saved v107 implementation.
 [Compact overview](assets/benchmarks/comparison.png) ·
 [All 28 entity cases](assets/benchmarks/comparison-entities.svg) ·
 [Complete 850-case image](assets/benchmarks/comparison-complete.png) ·
-[142-page timing/memory atlas](benchmarks/benchmark-atlas.pdf) ·
-[Raw results and measured source](benchmarks/raw-results.zip).
+[Complete native timing tables](benchmarks/complete-timings.md).
 
 The measured engine is **adaptive-ecs-v121**, with automatic registry selection
 and Kama `e838e2a4a1b0ea20f98007fbae4b1a2e723ae97d`. The entity suite uses

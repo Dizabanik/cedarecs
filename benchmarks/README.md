@@ -95,17 +95,15 @@ entity operations at 65,536 entities. The full image contains all 850 timing
 cases; the 142-page atlas adds every memory state and registry configuration.
 No cases are selected by whether Cedar wins.
 
-## Reproducibility
+## Data and dependency versions
 
 [All entity Mop/s and ns/op tables](entity-tables.md),
-[complete native tables](complete-timings.md), [numeric plot values](plotted-values.csv),
-[raw records and measured source](raw-results.zip),
-[metadata and pins](data/entities-metadata.json), [graphic provenance](provenance.json).
+[complete native tables](complete-timings.md).
 
-The archive contains raw JSONL/CSV/metadata, original Google Benchmark JSON,
-the measured Cedar/Kama source and harness scripts. Build paths in metadata
-are the original workspace paths. Compiler commands, exact pins and hashes
-remain recorded; rebuild dependencies for another host. Primary pins: EnTT
+Raw measurements, metadata, source archives, plotting scripts and PDF exports
+are kept locally and excluded from Git. The tracked tables and images summarize
+those measurements. Compiler commands, exact pins and hashes remain recorded
+locally; rebuild dependencies for another host. Primary pins: EnTT
 `78213075654a688e9da6bc49f7f873d25c26d12c`, pico
 `cfd880ec0804c060ad624a19a02a39b0deeb5ba4`, native Flecs
 `75fa09fa2f0874cb26bda8626ffdc0bce41a4f9e`, entity/memory Flecs

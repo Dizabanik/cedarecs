@@ -1,23 +1,16 @@
-# Benchmark harnesses. Keep published results and README images in Git.
+# Local benchmark harnesses.
 /bench/
 /benchmark/
 
-# Benchmark source and plotting tools. Keep the published data and graphics.
-/benchmarks/**/*.c
-/benchmarks/**/*.cc
-/benchmarks/**/*.cpp
-/benchmarks/**/*.h
-/benchmarks/**/*.hpp
-/benchmarks/**/*.py
-/benchmarks/**/*.sh
+# Keep readable result tables; exclude raw data, archives, PDFs and tooling.
+# README charts remain tracked under assets/benchmarks/.
+/benchmarks/*
+!/benchmarks/*.md
 
 # Local builds and benchmark executables.
 /build/
 /bin/
 /obj/
-/benchmarks/build/
-/benchmarks/bin/
-/benchmarks/tmp/
 *.o
 *.obj
 *.d
