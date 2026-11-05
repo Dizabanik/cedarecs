@@ -7,9 +7,9 @@ static int ced_component_compare(const void *a, const void *b) {
 ced_Archetype *ced_archetype_new(ced_World *w, const ced_Component *type,
 								 size_t count) {
 	bool embedded = w->archetype_count == 0 && count == 0;
-	// A small signature can stage its first row in the metadata allocation.
-	// Scalar add/remove chains often leave these signatures empty thereafter.
-	// A second row promotes to ordinary colored SoA buffers once.
+	// Small signatures store their first row in the metadata allocation, useful
+	// for scalar add/remove chains that often leave them empty. A second row
+	// moves storage to separate SoA buffers with cache coloring.
 	size_t inline_bytes=0;
 	bool small=!w->indexed && count && ced_align<=256;
 	for(size_t i=0;small && i<count;i++) {
@@ -79,9 +79,10 @@ ced_Archetype *ced_archetype_new(ced_World *w, const ced_Component *type,
 			w->archetypes = ced_xrealloc(w->archetypes, w->archetype_capacity, sizeof(*w->archetypes));
 	}
 	w->archetypes[w->archetype_count++] = arch;
-	// The embedded empty signature has a permanent slot. It does not need a
-	// second allocation in the signature index, especially for empty worlds.
-	if (!embedded && ced_ArchetypeMap_put(&w->_archetype_index, &arch->mask, arch) == KAMA_ERROR)
+	// The embedded empty signature has a permanent slot, avoiding a separate
+	// signature-index allocation even for empty worlds. Callers have checked
+	// that this signature is absent.
+	if (!embedded && ced_ArchetypeMap_put_unique(&w->_archetype_index, &arch->mask, arch) == KAMA_ERROR)
 		abort();
 	ced_changed(w);
 	return arch;
@@ -197,9 +198,9 @@ void ced_archetype_reserve(ced_World *w, ced_Archetype *arch, size_t needed) {
 #else
         size_t spacing = 64;
 #endif
-        // Offset each SoA column by a cache line, avoiding congruent starts
-        // for equally-sized power-of-two allocations. Keep the true base for
-        // realloc/free; component alignment is still honored.
+        // Offset SoA columns by cache lines so equal power-of-two allocations
+        // start in different cache sets. Preserve component alignment and keep
+        // each allocation's base for realloc/free.
         size_t prefix = (c & 31) * spacing;
         prefix = (prefix + alignment - 1) & ~(alignment - 1);
         size_t payload = ced_bytes(cap, size), live = ced_bytes(arch->count, size);
@@ -237,7 +238,8 @@ ced_ArchetypeEdge *ced_edge(ced_Archetype *arch, ced_Component c, bool create) {
 		return NULL;
 	edge = ced_xcalloc(1, sizeof(*edge));
 	edge->component = c;
-	if (ced_EdgeMap_put(&arch->edges, c, edge) == KAMA_ERROR)
+	// Cache and table checks above confirmed that this edge is absent.
+	if (ced_EdgeMap_put_unique(&arch->edges, c, edge) == KAMA_ERROR)
 		abort();
 	arch->_edge_cache[c & 7] = edge;
 	return edge;
@@ -246,8 +248,8 @@ ced_ArchetypeEdge *ced_edge(ced_Archetype *arch, ced_Component c, bool create) {
 static ced_ColumnMapping *ced_column_map(ced_Archetype *from, ced_Archetype *to,
 										 ced_Component component, size_t *count) {
 	if (from->indexed) {
-		// Indexed moves keep data in place. One immutable descriptor records
-		// the changed component instead of allocating unused shared-column maps.
+		// Indexed moves leave data in place. One immutable descriptor records
+		// the changed component; no shared-column maps are needed.
 		ced_ColumnMapping *descriptor = ced_xmalloc(sizeof(*descriptor));
 		*descriptor = (ced_ColumnMapping){component, 0};
 		*count = 0;

@@ -45,8 +45,8 @@ void ced_indexed_reserve(ced_World *w, ced_Component c) {
     ced_indexed_reserve_to(w, c, w->entity_capacity);
 }
 void ced_indexed_reserve_slot(ced_World *w, ced_Component c, uint32_t index) {
-    // Keep the small-component path and explicit reserve behavior unchanged.
-    // Large columns need only cover their highest published slot.
+    // Small columns cover the full entity capacity. Large columns need only
+    // cover their highest published slot; explicit reserves cover full capacity.
     size_t needed = w->components[c]->size < ced_indexed_partial_column_min_size ?
         w->entity_capacity : (size_t)index + 1;
     ced_indexed_reserve_to(w, c, needed);
@@ -100,8 +100,8 @@ void ced_indexed_move(ced_World *w, ced_Entity entity, ced_Record *record,
         // Single-component removal: all shared data stays in its existing slot.
         ced_indexed_cached_owner_remove(w, component, src->_column_allocations[from], src->columns[from].component_size, entity);
     } else {
-        // Every other destination column already belongs to the live source
-        // signature. Prepare only this newly added component, once per edge.
+        // Other destination columns belong to the live source signature.
+        // Prepare the added component once per edge.
         if (index >= w->components[component]->indexed.capacity)
             ced_indexed_reserve_slot(w, component, (uint32_t)index);
         ced_Component to = dst->column_for[component];

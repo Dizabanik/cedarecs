@@ -35,6 +35,7 @@ ced_View *ced_view_init(ced_World *w, const ced_ViewDesc *desc) {
 	for (size_t i = 0; i < q->component_count; i++) {
 		q->_field_sizes[i] = w->components[q->components[i]]->size;
 	}
+	if (w->indexed && (w->entity_count < 2048 || q->component_count == 1)) q->_column_slots=SIZE_MAX;
 	q->_revision = UINT64_MAX;
 	ced_lock(&w->_runtime->mutex);
 	q->_identity = ++w->_runtime->view_sequence;
@@ -80,7 +81,7 @@ static bool ced_matches(const ced_View *q, const ced_Archetype *a) {
 	return any;
 }
 
-static void ced_indexed_view_update(ced_View *q) {
+static void ced_indexed_classic_update(ced_View *q) {
 	ced_World *w = q->world;
 	ced_indexed_materialize_entities(w);
 	// Reuse the batch/pointer allocations as run boundaries change.
@@ -114,6 +115,65 @@ static void ced_indexed_view_update(ced_View *q) {
 		q->matches[i].column_ptrs = NULL;
 	}
 	q->_revision = w->storage_revision;
+}
+
+
+static void ced_indexed_arena_update(ced_View *q) {
+    ced_World *w = q->world;
+    ced_indexed_materialize_entities(w);
+    // Align each row of column pointers to max_align_t.
+    const size_t row_align = (_Alignof(max_align_t) + sizeof(void *) - 1) / sizeof(void *);
+    size_t stride = (q->component_count + row_align - 1) / row_align * row_align;
+    size_t bound_rows = stride ? q->_column_slots / stride : 0;
+    q->match_count = 0;
+    for (size_t index = 0; index < w->entity_count;) {
+        ced_Archetype *arch = w->entities[index].archetype;
+        size_t begin = index++;
+        while (index < w->entity_count && w->entities[index].archetype == arch) index++;
+        if (!arch || !ced_matches(q, arch)) continue;
+        if (q->match_count == q->_match_capacity) {
+            q->_match_capacity = ced_capacity(q->_match_capacity, q->match_count + 1);
+            q->matches = ced_xrealloc(q->matches, q->_match_capacity, sizeof(*q->matches));
+        }
+        size_t slot = q->match_count++;
+        ced_Batch *batch = &q->matches[slot];
+        void **columns = slot < bound_rows ? q->_column_storage + slot * stride : NULL;
+        *batch = (ced_Batch){.query=q, ._field_count=(uint32_t)q->component_count,
+            .archetype=arch, .column_ptrs=columns, .entities=w->_indexed_entities+begin,
+            .offset=begin, .count=index-begin};
+        // Bind the existing arena while scanning. If the run count stays the
+        // same, a structural refresh needs no allocation or second pass.
+        if (columns) for (size_t c=0;c<q->component_count;++c)
+            columns[c]=ced_batch_col(batch,q->components[c]);
+    }
+    size_t slots=ced_bytes(q->match_count,stride);
+    if (slots!=q->_column_slots) {
+        if (!slots) { free(q->_column_storage); q->_column_storage=NULL; }
+        else q->_column_storage=ced_xrealloc(q->_column_storage,slots,sizeof(void *));
+        q->_column_slots=slots;
+        // realloc preserves the bound prefix. Update pointers if it moves,
+        // then bind any rows that did not fit in the previous allocation.
+        for (size_t i=0;i<q->match_count;++i) {
+            ced_Batch *batch=&q->matches[i];
+            batch->column_ptrs=q->_column_storage+i*stride;
+            if (i>=bound_rows) for (size_t c=0;c<q->component_count;++c)
+                batch->column_ptrs[c]=ced_batch_col(batch,q->components[c]);
+        }
+    }
+    q->_revision=w->storage_revision;
+}
+
+static void ced_indexed_view_update(ced_View *q) {
+    if (q->_column_slots == SIZE_MAX) {
+        // Small worlds and single-field views use separate column-pointer arrays.
+        if (q->world->entity_count < 2048 || q->component_count == 1) {
+            ced_indexed_classic_update(q);
+            return;
+        }
+        for (size_t i=0;i<q->match_count;++i) free(q->matches[i].column_ptrs);
+        q->_column_slots=0;
+    }
+    ced_indexed_arena_update(q);
 }
 
 void ced_view_update(ced_View *q) {
@@ -174,7 +234,8 @@ void ced_view_free(ced_View *q) {
 			*slot = q->_cache_next;
 	}
 	ced_unlock(&w->_runtime->mutex);
-	for (size_t i = 0; i < q->match_count; i++)
+	if (w->indexed && q->_column_slots != SIZE_MAX) free(q->_column_storage);
+	else for (size_t i = 0; i < q->match_count; i++)
 		free(q->matches[i].column_ptrs);
 	free(q->matches);
 	free(q->components);
@@ -227,8 +288,7 @@ ced_View *ced_cached_view(ced_World *w, size_t count, const char *const *names) 
 	if (!w || count > ced_max_components || (count && !names))
 		return NULL;
 	ced_ThreadBuffer *buffer = ced_get_thread_buffer(w);
-	// Match by names so the cached hot path performs no allocation or ID array
-	// construction.
+	// Match by name to reuse cached views without allocating or building ID arrays.
 	for (ced_View *q = buffer->views; q; q = q->_cache_next) {
 		if (q->component_count != count)
 			continue;

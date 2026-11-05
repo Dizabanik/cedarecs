@@ -1,8 +1,8 @@
 #ifndef CEDARECS_ACCESS_H
 #define CEDARECS_ACCESS_H
 
-// Plain C/C++ storage metadata. No C atomics, hashmap implementation, or C++
-// object construction is required to use the inline read interface.
+// Storage metadata for the C/C++ inline read interface. It requires no C
+// atomics, hashmap implementation, or C++ object construction.
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -36,8 +36,8 @@ typedef struct ced_Column {
     size_t component_size;
 } ced_Column;
 
-// This is the actual first subobject of every archetype. C and C++ readers
-// address the same metadata object, without copying/punning the world layout.
+// The first member of every archetype. C and C++ readers share this metadata
+// without copying it or reinterpreting the world layout.
 typedef struct ced_ArchetypeAccess {
     const ced_Column *columns;
     const ced_Component *column_for;
@@ -77,8 +77,8 @@ static inline const void *ced_indexed_get(const ced_IndexedReader *reader, ced_E
     return column->data + (size_t)index * reader->size;
 }
 
-// Address-stable tracked access: storage growth refreshes these three hot
-// fields. Zero-initialize before first init; init/copy may rebind an active
+// Keep tracked access at a stable address. Storage growth updates data, owners
+// and capacity. Zero-initialize before first init; init/copy may rebind an active
 // node. Reset before its address expires; do not copy nodes with assignment.
 struct ced_IndexedAccess {
     unsigned char *data;
@@ -156,7 +156,7 @@ CEDARECS_PURE ced_IndexedBinding ced_indexed_bind(ced_IndexedWriter *writer, ced
 bool ced_indexed_prepare(ced_IndexedBinding *binding);
 void *ced_indexed_add_cold(ced_IndexedBinding *binding, ced_Entity entity);
 void ced_indexed_remove_cold(ced_IndexedBinding *binding, ced_Entity entity);
-// Existing alias-safe mutation entry point, also used when a scoped put grows.
+// Handles aliased input, including when a scoped put needs to grow storage.
 bool ced_add_set_component(ced_World *world, ced_Entity entity, ced_Component component,
                            const void *value);
 #ifdef __cplusplus
@@ -185,12 +185,18 @@ static inline void *ced__indexed_add_record(ced_IndexedBinding *binding, ced_Ent
         (uint32_t)entity >= binding->reader.column->capacity)
         return ced_indexed_add_cold(binding, entity);
     if (rec->archetype == binding->without_component) {
+        // Prepared transitions cannot relocate storage. Read the destination
+        // before writing metadata so possible aliases do not force a reload
+        // of the column binding.
+        const ced_IndexedColumn *column = binding->reader.column;
+        void *out = size ? column->data + (size_t)(uint32_t)entity * size : NULL;
         rec->archetype = binding->with_component;
         (*binding->without_count)--; (*binding->with_count)++;
-        binding->reader.column->owners[(uint32_t)entity] = entity;
+        column->owners[(uint32_t)entity] = entity;
         (*binding->writer->revision)++;
         if (clear && size)
-            memset(binding->reader.column->data + (size_t)(uint32_t)entity * size, 0, size);
+            memset(out, 0, size);
+        return out;
     } else if (rec->archetype != binding->with_component)
         return ced_indexed_add_cold(binding, entity);
     return size ? binding->reader.column->data + (size_t)(uint32_t)entity * size : NULL;
@@ -206,8 +212,15 @@ static inline bool ced__indexed_put_size(ced_IndexedBinding *binding, ced_Entity
                                         const void *value, size_t size) {
     ced_Record *rec = ced_indexed_write_record(binding, entity);
     if (!rec || (size && !value)) return false;
-    // The input may borrow the column that is about to move. The generic
-    // mutation path captures it before growing; the prepared path stays inline.
+    // A live record in the prepared signature already owns this column row.
+    // No storage growth or structural transition is needed for replacement.
+    if (rec->archetype == binding->with_component) {
+        if (size)
+            memmove(binding->reader.column->data + (size_t)(uint32_t)entity * size, value, size);
+        return true;
+    }
+    // Input may point into a column that growth will move. The general path
+    // saves it before growing; prepared writes stay inline.
     if (size >= ced_indexed_partial_column_min_size &&
         (uint32_t)entity >= binding->reader.column->capacity)
         return ced_add_set_component(binding->writer->world, entity, binding->component, value);
@@ -235,8 +248,8 @@ static inline void ced_indexed_remove(ced_IndexedBinding *binding, ced_Entity en
 }
 
 #ifdef __cplusplus
-// A checked type binding resolves the stride once, then keeps it constant at
-// each read. Return bytes so callers can memcpy into a live C++ object.
+// Checked type bindings resolve the stride once and keep it constant on reads.
+// Return bytes so callers can memcpy into a live C++ object.
 template<class T> class ced_IndexedRead {
     inline static const ced_Entity empty_owner_ = UINT64_MAX;
     mutable ced_IndexedAccess access_{nullptr, &empty_owner_, 0, nullptr, nullptr, nullptr};

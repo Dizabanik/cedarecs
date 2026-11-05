@@ -62,7 +62,8 @@ ced_Component ced_component_register(ced_World *w, const char *name, size_t size
 	w->components[id]->name = len <= sizeof(w->components[id]->_short_name) ?
 		w->components[id]->_short_name : ced_xmalloc(len);
 	memcpy(w->components[id]->name, name, len);
-	if (ced_NameMap_put(&w->_component_names, w->components[id]->name, len - 1, id) ==
+	// The lookup above confirmed absence while structural writes are exclusive.
+	if (ced_NameMap_put_unique(&w->_component_names, w->components[id]->name, len - 1, id) ==
 		KAMA_ERROR)
 		abort();
 	return id;

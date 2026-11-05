@@ -1,15 +1,17 @@
 # Cedar ECS
 
-This testing copy contains experimental memory optimizations. See
-[`../MEMORY_OPTIMIZATION.md`](../MEMORY_OPTIMIZATION.md) for measured results
-and outstanding acceptance gates. Rebuild all callers after changing sources;
-the exposed metadata layout is not a stable binary interface.
+Cedar is a C11 ECS with archetype storage, typed helpers, cached views, deferred
+commands, and synchronous parallel batch iteration.
+
+This copy contains experimental memory optimizations. The benchmark section
+below covers measured results and the remaining acceptance work. Rebuild all
+callers after changing sources; exposed metadata has no stable binary interface.
 
 The world owns archetype metadata, including its type, column and allocation
-pointer arrays. These are borrowed views into one allocation and must not be
-freed separately. Component metadata addresses remain stable as registrations
-grow. Raw component pointers retain the structural-write lifetime documented
-below; tracked indexed readers follow storage relocation.
+pointer arrays. Those arrays share one allocation; callers borrow them and must
+not free them separately. Component metadata stays at the same address as
+registrations grow. Raw component pointers follow the structural-write lifetime
+rules below. Tracked indexed readers follow storage when it moves.
 
 Large buffers use anonymous mappings on macOS/Linux, normally reserving at
 least 256 MiB of address space per buffer. Unused reservation is not physical
@@ -18,16 +20,42 @@ pressure. Define `CEDARECS_NO_VM` for native geometric allocation; other
 platforms use this fallback automatically. Memory comparisons must include
 mapped logical storage and process footprint alongside malloc statistics.
 
-C11 archetype storage with typed helpers, cached views, deferred commands, and synchronous parallel batch iteration. The engine and compatibility containers use [Kama](https://github.com/Dizabanik/kama) for hash maps. The dependency is pinned to `e07fb8d070da9310b72043ee4e0051b68d974699` (upstream `main` when fetched on 2026-10-25).
+The engine and compatibility containers use [Kama](https://github.com/Dizabanik/kama)
+for hash maps, pinned to `e838e2a4a1b0ea20f98007fbae4b1a2e723ae97d` (upstream
+`main` fetched on 2026-10-31). The parent workspace keeps the unmodified
+`kama.h` and `kama_conc.h`, licenses and notices in `../kama/`. Recompile every
+consumer when updating this dependency.
 
-From a fresh checkout:
+Kama's `put` reports success for both insertion and overwrite. Cedar's legacy
+integer-map wrapper returns `entry.inserted`, so its boolean still means that
+it inserted a new key. Internal code uses `put_unique` only after a lookup proves
+the key absent while structural writes are excluded or the registry mutex is
+held. Allocation failures and public inputs are checked.
+
+`<cedarecs/cedar.h>` includes grouped slot declarations, checked registration
+functions, filtered-view and spawn-plan factories, row loops, and pointer
+setters. See the [API guide](API_GUIDE.md). Including `helpers.h` selects the
+same API without changing runtime behavior or storage layout. The parent
+benchmark workspace also has a runnable `api_helpers.c` example.
+
+The initialized-construction API supports
+`ced_spawn_with(world, ced_value(Position, {...}), ced_tag(Player))` and typed
+named bundles. It validates all values before publishing an entity and handles
+component ordering internally. Prepared bundles copy from named C struct fields
+directly into the final archetype. See the [construction guide](API_GUIDE.md).
+The parent benchmark workspace has an `initialized_bundles.c` example.
+
+In the parent engine checkout, initialize submodules and run its ECS tests:
 
 ```sh
 git submodule update --init --recursive
 make test-ecs
 ```
 
-Compile all `ecs/*.c` and `wexds.c` with `-std=c11 -pthread -Iinclude -lm` on POSIX. The ECS runtime also has Win32 synchronization/allocation implementations; Windows has not been tested here. Keep all `ced_*` and `KAMA_*` build configuration identical across translation units.
+On POSIX, compile all `ecs/*.c` and `wexds.c` with
+`-std=c11 -pthread -Iinclude -lm`. The runtime also has Win32 synchronization
+and allocation code, which has not been tested here. Use the same `ced_*` and
+`KAMA_*` build settings in every translation unit.
 
 ## Start here
 
@@ -68,7 +96,110 @@ int main(void) {
 
 `ced_set` adds a missing component and writes its value. `ced_write` only writes an existing component, takes a value pointer, and returns false if absent. `ced_add` zero-initializes a newly added component; adding an existing one preserves its value. `ced_get` returns NULL when absent or invalid. `ced_has` tests presence. Typed convenience macros evaluate their world, entity, batch, and value expressions once.
 
-`ced_entity(world)` creates an entity without components. `ced_spawn` creates directly in the final archetype, avoiding an intermediate migration for every type. `ced_reserve_entities` and `ced_reserve_archetype` allow capacity planning. Type-list macros accept 1–16 types; use ID-based APIs for arbitrary lists or a zero-component query.
+`ced_entity(world)` creates an entity without components. `ced_spawn` creates
+it directly in its final archetype, without a migration for each type.
+Use `ced_reserve_entities` and `ced_reserve_archetype` to plan capacity.
+Type-list macros accept 1 to 16 types; use ID-based APIs for arbitrary lists
+or a zero-component query.
+
+<!-- cedar-benchmarks:start -->
+## Benchmarks
+
+**Cedar has lower median timings in 82 of 84 entity matchups** against EnTT,
+pico_ecs and Flecs in this measured set. The suite covers creation, destruction, component changes and
+reads at 1, 1,024 and 65,536 entities, plus empty-world lifecycle.
+
+| Peer | Cedar median wins |
+| --- | ---: |
+| EnTT | **27 / 28** |
+| pico_ecs | **27 / 28** |
+| Flecs | **28 / 28** |
+
+![Cedar ECS read throughput](assets/benchmarks/read-throughput.svg)
+
+![Cedar ECS lifecycle throughput](assets/benchmarks/lifecycle-throughput.svg)
+
+The table shows throughput at the largest input in **Mop/s**; higher is better.
+A positive Δ favors Cedar over the fastest peer in that row. The paired
+[Mop/s and ns/op tables](benchmarks/entity-tables.md) include every size and peer.
+
+```text
+┌──────────────────────┬─────────────┬────────────┬────────────┬─────────────┬────────────────┐
+│ Benchmark · N=65,536 │ Cedar Mop/s │ EnTT Mop/s │ pico Mop/s │ Flecs Mop/s │ Δ vs best peer │
+├──────────────────────┼─────────────┼────────────┼────────────┼─────────────┼────────────────┤
+│ create_empty         │       386.3 │      215.2 │      195.4 │       210.9 │         +79.5% │
+│ create_components    │       119.4 │      59.16 │      83.41 │       16.17 │         +43.1% │
+│ destroy_entities     │       297.6 │      61.63 │      218.5 │       100.3 │         +36.2% │
+│ add_component        │        2.82 │       2.77 │       2.84 │        2.60 │          -0.5% │
+│ remove_add           │       282.6 │      91.05 │      239.9 │       18.57 │         +17.8% │
+│ read_absent          │     4,457.3 │    1,931.5 │    1,428.1 │       320.6 │        +130.8% │
+│ read_one             │     1,860.8 │      444.9 │    1,412.8 │       335.8 │         +31.7% │
+│ read_two             │       860.9 │      203.3 │      834.4 │       173.3 │          +3.2% │
+│ read_three           │       601.2 │      156.2 │      591.5 │       84.12 │          +1.6% │
+└──────────────────────┴─────────────┴────────────┴────────────┴─────────────┴────────────────┘
+```
+
+The two median losses are empty-world lifecycle against EnTT and adding a
+component at 65,536 entities against pico_ecs (0.48% higher Cedar latency).
+The addition case includes the upstream timer pause/resume overhead, and its
+timing ranges overlap. Both losses are included in the results.
+
+### Entity scaling
+
+![Component read time across entity counts](assets/benchmarks/scaling-read-one.svg)
+
+[All nine operations](assets/benchmarks/scaling-entities.svg) ·
+[Large PNG](assets/benchmarks/scaling-entities.png) ·
+[Plotted values](benchmarks/scaling-values.csv) ·
+[Chart source](benchmarks/plot-scaling.py).
+
+These curves use the same 32-round results at 1, 1,024 and 65,536 entities.
+Both axes are logarithmic; lower CPU time is better. Markers show measured
+inputs, and shaded bands show timing quartiles. Values are per benchmark
+iteration. Each panel in the overview has its own time scale.
+
+### Automatic concurrent Kama
+
+Cedar chooses ordinary or concurrent Kama for each world. Repeated access to
+one world uses the TLS cache. Producers that repeatedly switch worlds can
+promote their registry to concurrent shards. The dedicated test includes
+promotion in the timed work. With eight threads and two worlds, enqueueing
+values has **3.13×** the throughput of the saved v107 implementation.
+
+![Cedar concurrent producer registry throughput](assets/benchmarks/concurrent-registry.svg)
+
+### Complete comparisons
+
+| C suite against Flecs | Cedar median wins |
+| --- | ---: |
+| Original | **47 / 50** |
+| Expanded, packed | **345 / 386** |
+| Expanded, indexed | **304 / 386** |
+
+[Compact overview](assets/benchmarks/comparison.png) ·
+[All 28 entity cases](assets/benchmarks/comparison-entities.svg) ·
+[Complete 850-case image](assets/benchmarks/comparison-complete.png) ·
+[142-page timing/memory atlas](benchmarks/benchmark-atlas.pdf) ·
+[Raw results and measured source](benchmarks/raw-results.zip).
+
+The measured engine is **adaptive-ecs-v121**, with automatic registry selection
+and Kama `e838e2a4a1b0ea20f98007fbae4b1a2e723ae97d`. The entity suite uses
+checked indexed Cedar, 32 process rounds and CPU-time medians. The C suites
+use 24 rounds, shared raw-clock and kernel objects, and wall time. Rates are
+`1000 / median ns/op`; entity timings divide by the actual visited-entity
+counters. Every retained sample contributes to the median. No best pass is
+selected. Native C Flecs uses the development pin; the entity and memory
+adapters use Flecs 4.0.1.
+
+The benchmarks ran on an Apple M4 Pro with macOS. The code used native Clang
+release flags. CPU affinity, frequency and background activity are uncontrolled.
+The read, lifecycle and concurrent overviews use one scale starting at zero
+per figure. Grid panels each scale from zero. The full plots include every
+slower case and the observed timing spread. The engines have different
+semantics, so these workloads do not establish a universal feature or speed
+ranking. Complete timing and memory acceptance is still in progress.
+See the [methods, pins, memory and limitations](benchmarks/README.md).
+<!-- cedar-benchmarks:end -->
 
 ## IDs, registration, and tags
 
@@ -113,7 +244,58 @@ ced_view_free(active);
 
 **Structural changes invalidate component pointers, batch pointers, row indices, and query snapshots.** Creation, destruction, add/remove, and reserve may relocate or compact storage. Never perform them during an active iteration; enqueue changes and flush afterward. Updating an already present value keeps storage stable. Swap removal preserves entity identity but does not preserve iteration order. Entity arrays are metadata; do not modify their contents.
 
+Large indexed worlds can keep required-column bindings in one query-owned
+arena instead of allocating them for each run. Small worlds and single-field
+queries use the per-run layout. Cedar chooses the layout when it sets up or
+refreshes the view, outside the row loop. Rows keep native allocation alignment.
+Storage shrinks or is freed as matches disappear. Run boundaries, optional
+access and tag checks work the same way, and structural changes invalidate
+cached bindings.
+
 ## Deferred commands and threads
+
+In both storage modes, an adjacent add/put/write followed by removal of the
+same initially absent component leaves the entity unchanged. Cedar checks the
+full handle before skipping this pair. It needs no temporary component storage,
+scratch-array or mask work, or revision change. Existing components, different
+components, reversed operations and destruction follow normal command
+processing. Enqueueing still validates and copies supplied values.
+
+Each world's producer registry starts with ordinary Kama under the world mutex.
+When TLS misses find an existing buffer and at least two producers are
+registered, owner switches increase a score. At 64, the registry promotes once
+to `kama_conc_u64`; repeated access by the same owner reduces the score.
+Registration alone or a sole active producer does not trigger promotion.
+The decision uses the lock already needed for lookup. Repeated access to one
+world checks the TLS identity and returns the buffer without a mode check,
+timer, sampling counter or map lookup.
+
+The ordinary map is embedded in the private runtime. Automatic selection uses
+16 logical bytes at its end, without moving hot fields. On the tested host,
+the world stays in the same allocator size class. Automatic selection needs no
+extra allocation before promotion. It allocates concurrent shards and their
+handle when sharing is observed.
+Cedar migrates entries under the world mutex, then publishes the map with
+release/acquire ordering. Waiters recheck that pointer before using the old
+map. Buffers and views stay at the same addresses, and the registry stays
+concurrent until the world is destroyed. Every 256 misses by the same owner
+reduce the score, so short lock convoys can still show sharing. TLS identity,
+buffer and token share one thread-local object, resolved once per lookup.
+Only registry synchronization changes; the structural-mutation rules still apply.
+
+No build option is needed. `CEDARECS_CONCURRENT_REGISTRY` defaults to `2`
+(automatic); `0` forces ordinary Kama and `1` forces concurrent Kama for controlled
+experiments or known workloads. `CEDARECS_REGISTRY_SHARDS` defaults to 8 and must
+be a positive power of two. All runtime translation units must agree.
+
+The world mutex protects list publication and flush snapshots; each producer
+queue also has its own mutex. In the twelve-producer test, registry tables
+and control storage request 3,776 bytes per world with concurrent Kama, versus
+288 bytes with the ordinary map. These figures describe the v107 forced modes.
+Automatic mode uses another 16 bytes of runtime control and allocates a separate
+concurrent handle after promotion. Command buffers and allocator overhead add
+to those totals. The parent engine checkout runs this test with
+`make -C testing check-concurrent-registry`.
 
 Register types and create initial entities on the owning thread. Concurrent readers require stable structure. Give each thread its own explicit view, or use `ced_each` for an automatic per-thread cache. Concurrent writes require disjoint component storage; callbacks and application-owned state need their own synchronization.
 
@@ -153,9 +335,22 @@ ced_view_free(moving);
 
 The pool persists between calls. Dispatch refreshes the view, splits each archetype into non-overlapping row slices, lets the caller participate, waits for all workers, then flushes deferred commands. `entities`, `column_ptrs`, `ced_col`, and `ced_entity_at` refer to the slice. `grain == 0` selects 1024 rows. Empty views succeed without invoking the callback. Context and slice pointers need only remain valid until the call returns.
 
-Direct structural writes are rejected while a parallel dispatch is active; use deferred commands. Nested/concurrent dispatch on the same world returns false. Pool sizes 1–256 are supported; invalid sizes and thread creation failures return false. Pool setup and dispatch belong to the owner thread. A parallel callback must not refresh/free the dispatched view, destroy its world, or read/write other rows that another callback may modify. Deferral does not make unrelated globals, game chunk storage, or rendering APIs thread-safe.
+An empty view or a single complete batch fitting the requested grain can finish
+on the caller without waking idle workers. The configured thread count stays
+unchanged. Callback scratch metadata remains private, structural-write exclusion
+still applies, and deferred commands are flushed before dispatch returns.
 
-The system scheduler remains sequential. Use parallel batch iteration inside a system for data that can be partitioned safely. Whole-system concurrency needs explicit read/write/resource declarations before it can be scheduled safely.
+Direct structural writes are rejected during parallel dispatch; use deferred
+commands. Nested or concurrent dispatch on the same world returns false.
+Pool sizes 1 to 256 are supported; invalid sizes and thread creation failures
+return false. The owner thread sets up the pool and dispatches work. A parallel
+callback must not refresh or free the dispatched view, destroy its world, or
+read or write rows that another callback may modify. Deferral does not make
+unrelated globals, game chunk storage, or rendering APIs thread-safe.
+
+The system scheduler runs sequentially. Use parallel batch iteration inside a
+system when its data can be partitioned safely. Scheduling whole systems
+concurrently would require explicit read, write and resource declarations.
 
 ## Systems and timing
 
@@ -165,23 +360,39 @@ The system scheduler remains sequential. Use parallel batch iteration inside a s
 
 ## Build, errors, and compatibility
 
-`make test-ecs`, `make test-ecs-asan`, `make test-ecs-tsan`, and `make test-ecs-config` exercise ECS/container behavior without graphics dependencies. `make test-chunks` links the engine but opens no window, testing the real chunk lookup/eviction/persistence code against a temporary file. `make` builds the game. Header dependency files prevent stale objects after API/layout changes.
+In the parent engine checkout, `make test-ecs`, `make test-ecs-asan`,
+`make test-ecs-tsan`, and `make test-ecs-config` test the ECS and containers
+without graphics dependencies. `make test-chunks` links the engine and tests
+chunk lookup, eviction and persistence against a temporary file without opening
+a window. `make` builds the game. Header dependency files prevent stale
+objects after API or layout changes.
 
-Invalid handles, IDs, filters, and registration requests return false/NULL/sentinels or are ignored by void operations. Allocation failure and allocation-size overflow abort; errors cannot silently publish a partially allocated world or discard an old column. This is a fail-fast API, not a recoverable allocator interface.
+Invalid handles, IDs, filters and registration requests return false, NULL or a
+sentinel; void operations ignore them. Allocation failure or allocation-size
+overflow aborts the process. Errors cannot silently publish a partially
+allocated world or discard an old column. Callers cannot recover from
+allocation errors through this API.
 
-This change requires recompiling all consumers: exposed struct layouts, the slot atomic type, archetype IDs, and entity reuse semantics changed. Legacy `include/cedar/ecs.h` forwards to the ECS header with a distinct include guard. Legacy `ihmap`/`dhasht` functions remain, backed by Kama; direct access to their old storage layout is unsupported. Their value ownership behavior is documented in `wexds.h`. String keys are copied; values remain caller-owned unless a `*_wdata` destructor/removal is explicitly used.
+Recompile all consumers when updating this variant: exposed struct layouts,
+the slot atomic type, archetype IDs and entity reuse semantics have changed.
+The parent engine's `include/cedar/ecs.h` forwards to the ECS header with a
+distinct include guard. Legacy `ihmap` and `dhasht` functions use Kama; direct
+access to their old storage layout is unsupported. `wexds.h` documents value
+ownership. String keys are copied; values remain caller-owned unless a
+`*_wdata` destructor or removal is explicitly used.
 
-The source audit, implemented fixes, and remaining design opportunities are listed in [docs/ecs-audit.md](../../docs/ecs-audit.md).
+The parent engine's `docs/ecs-audit.md` records the source audit, implemented
+fixes and remaining design work.
 
 ## Experimental optimization variant
 
-This isolated copy adds `ced_spawn_plan_init(world, count, ids)` and
-`ced_entity_from_plan(world, &plan)` for repeated creation with a signature
-validated once. `ced_reserve_plan` is optional; benchmarks do not reserve row
+Use `ced_spawn_plan_init(world, count, ids)` and
+`ced_entity_from_plan(world, &plan)` to create entities repeatedly from a
+signature validated once. `ced_reserve_plan` is optional; benchmarks do not reserve row
 capacity. Plans carry the world's unique identity and are rejected by foreign
 or replacement worlds. They expire when their world is dropped.
 
-Entity records now store an archetype pointer, uint32 row, and uint32 generation.
+Entity records store an archetype pointer, uint32 row, and uint32 generation.
 NULL archetype denotes a dead record; live empty entities still occupy the empty
 archetype. The global entity limit guarantees rows fit uint32. Records beyond
 entity_count are not initialized and must not be inspected. Compact records,
@@ -211,11 +422,11 @@ Parallel dispatch keeps compact 24-byte slice descriptors and binds fields into
 worker-local scratch from the query's cached base pointers and element sizes.
 This avoids a large per-job batch/column cache and repeated component-ID lookup.
 
-Worker counters use 128-byte cache-line separation on Apple ARM64 and 64 bytes
-elsewhere; ced_worker_cache_line can override that private runtime policy.
-This avoids sharing the claim and completion counters on this machine's
-128-byte cache lines. Per-worker scratch is reusable and bounded by the query field count, rather
-than the number of slices.
+Worker counters are separated by 128 bytes on Apple ARM64 and 64 bytes
+elsewhere. `ced_worker_cache_line` can override this private runtime setting.
+The separation keeps claim and completion counters off the same cache line
+on this machine, which has 128-byte cache lines. Each worker reuses scratch
+storage sized by the query's field count, independent of its number of slices.
 
 Completion uses a sequentially consistent waiter/completion handshake: the
 last worker takes the condition-variable mutex only if the owner may sleep.
@@ -254,8 +465,8 @@ contains one pointer per component in ascending component-ID order (the plan's
 canonical archetype type order). NULL entries zero-initialize; tags ignore their
 entries. Source values can alias component storage, even when insertion grows
 those columns. `NULL` for the entire array retains zero-initialized creation.
-Presence access now uses an inline membership check, including for tags, without
-materializing a nullable data-column pointer. All handle checks remain in place.
+Presence access uses an inline membership check, including for tags, without
+building a nullable data-column pointer. It still checks the handle.
 
 
 `ced_read_access(world)` returns a non-owning metadata interface usable with the
@@ -267,12 +478,12 @@ structural-write lifetime and threading rules. The metadata points at actual
 shared C subobjects; it does not assume a C++ layout for C atomics or hashmaps.
 The optional read facade adds two pointers per archetype, with no record growth.
 
-Archetypes retain their authoritative Kama transition maps and cache eight
-recent edges by component ID. Collisions fall back to Kama and do not affect
-correctness. Dispatch slices now belong to their query, are reused across pool
-resizing, and are freed with the query. Alternating systems no longer evict one
-another's plans. Each dispatched query retains O(entities/grain) slice storage;
-structural revisions and grain changes rebuild that query's slices.
+Each archetype has a Kama transition map and a cache of eight recent edges by
+component ID. Cache collisions fall back to Kama without affecting correctness.
+Each query owns its dispatch slices, reuses them across pool resizing and frees
+them when the query is freed. Alternating systems keep separate plans. A
+dispatched query stores O(entities/grain) slices; structural revisions and grain
+changes rebuild them.
 
 
 ## Optional indexed storage
@@ -281,9 +492,10 @@ structural revisions and grain changes rebuild that query's slices.
 slots retain their generational handles; component presence stores the complete
 64-bit owner handle separately from payload data. UINT64_MAX marks absence:
 entity index UINT32_MAX is never allocated, so this marker cannot alias a live
-entity, including at generation UINT32_MAX. Each allocated slot costs eight
-bytes of presence metadata, four more than the earlier generation-only design.
-Checked reads compare the complete owner without an overflow slow path. Structural changes update signatures
+entity, including at generation UINT32_MAX. Presence metadata costs eight bytes
+per allocated slot, including the four-byte index as well as the generation.
+Checked reads compare the complete owner without an overflow slow path.
+Structural changes update signatures
 without copying retained components or compacting component rows. A component
 allocates slots lazily on its first insertion and grows with the world's entity
 capacity. This trades additional memory in unused slots and presence arrays for
@@ -313,11 +525,11 @@ check the bound byte size once and use a constant stride; reads return bytes
 for copying into live C++ objects. The scope API does not expose C atomic or
 hashmap layout to C++ callers.
 
-World, runtime, component metadata, the empty signature, and small initial entity
-and archetype arrays share one allocation. Larger arrays spill to independent
-checked allocations. Short component names live inside stable component metadata;
-long names retain separately owned storage. This reduces small-world teardown
-allocation traffic for both storage modes without changing lifetime rules.
+The world, runtime, component metadata, empty signature, and small initial
+entity and archetype arrays share one allocation. Larger arrays use separate
+checked allocations. Short component names live inside stable metadata;
+long names have separately owned storage. Small-world teardown frees fewer
+allocations in both storage modes; lifetime rules are unchanged.
 
 
 C++ `ced_IndexedRead<T>::value(entity)` validates the handle and returns a copied
@@ -344,14 +556,15 @@ Packed signatures with eight or more data columns zero unused capacity in bulk;
 smaller signatures clear each exposed row. A high-water boundary
 tracks rows that may contain old data; recycled rows are still cleared before
 being exposed. Prepared value spawning overwrites supplied values and preserves
-zeroes for missing values. Homogeneous 8–256-byte signatures resolve their
+zeroes for missing values. Homogeneous 8 to 256-byte signatures resolve their
 initialization width once per row. Mixed widths, tags, arbitrary sizes and
 alignment keep their general behavior. Clang inline memory builtins prevent
 small memory operations from becoming external calls; other compilers use
 ordinary memset/memmove. `CEDARECS_PORTABLE_MEMORY` forces that fallback for
-validation. Small copies snapshot all source bytes before writing, retaining
-memmove overlap safety. Capacity growth can do more bulk zeroing and retain a
-larger working set; this is a throughput tradeoff, not a promise for every case.
+validation. Small copies capture all source bytes before writing, so
+overlapping memory has memmove semantics. Capacity growth can zero more memory
+in bulk and keep a larger working set. The throughput effect depends on the
+workload.
 
 
 ## Tracked checked readers and automatic batches
@@ -364,7 +577,7 @@ NULL and required `value` calls abort. Const readers use mutable registration
 metadata, without making component data mutable through their read interface.
 Registration of independent objects is synchronized. Component reads still
 require the world's normal synchronization; join external users before freeing
-its world. Previously borrowed raw pointers still expire on structural changes.
+its world. Borrowed raw pointers still expire on structural changes.
 The raw C `ced_IndexedReader` and `ced_ReadAccess` retain their world-bound lifetime.
 
 C callers can zero-initialize `ced_IndexedAccess`, initialize it with
@@ -394,10 +607,10 @@ limit; field and handle checks remain active in release builds.
 
 Packed column starts are spaced by cache lines, with true allocation bases kept
 separately for resize/free. Offsets honor component alignment and `ced_align`.
-Padding and serial batch metadata cost additional memory. These exposed layout
-changes require rebuilding all consumers.
+Padding and serial batch metadata use additional memory. Rebuild all consumers
+after changes to these exposed layouts.
 
-In this experimental memory branch, entity records use native allocations up
+In this experimental memory variant, entity records use native allocations up
 to and including 1 MiB. The next growth moves initialized records into a
 growable virtual allocation on supported platforms. This keeps allocator page
 reuse at the geometric-growth boundary while retaining bounded growth for
@@ -432,7 +645,7 @@ prefix; sparse high-slot components can still require large allocations.
 
 Owner arrays use `ced_Entity` entries. Tracked readers refresh on relocation
 and invalidate on world destruction. Detached snapshots do not extend foreign
-metadata lifetimes. Their six-word layout matches the original checked facade.
+metadata lifetimes. The checked facade uses the same six-word layout.
 The memory experiments remain under evaluation; no complete timing or memory
 acceptance has been established.
 

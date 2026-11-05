@@ -50,8 +50,8 @@ static inline void ced_cond_wait(ced_Cond *c, ced_Mutex *m) { pthread_cond_wait(
 static inline void ced_cond_broadcast(ced_Cond *c) { pthread_cond_broadcast(c); }
 #endif
 
-// Allocation failures are fail-fast. Never publish partial storage or lose the
-// old allocation on failure. All sizes pass through checked multiplication.
+// Abort on allocation failure before publishing partial storage or losing the
+// old allocation. Check all size multiplications for overflow.
 static inline size_t ced_bytes(size_t count, size_t size) {
 	if (size && count > SIZE_MAX / size)
 		abort();
@@ -140,8 +140,8 @@ static inline void ced_aligned_free(void *p) {
 #endif
 }
 
-// Fundamental-alignment columns use malloc/realloc, allowing the allocator to
-// extend/remap large allocations instead of copying every live row on growth.
+// Columns with fundamental alignment use malloc/realloc so the allocator can
+// extend or remap large allocations without copying every live row on growth.
 static inline void *ced_aligned_resize(void *old, size_t live_size, size_t size,
 									   size_t alignment) {
 	if (!size) {
@@ -189,7 +189,31 @@ typedef struct ced_ThreadBuffer {
 	struct ced_ThreadBuffer *next;
 } ced_ThreadBuffer;
 
+// Producers share the registry while enqueuing commands. Access to other world
+// maps requires the usual exclusion of concurrent structural writes.
+#ifndef CEDARECS_CONCURRENT_REGISTRY
+#define CEDARECS_CONCURRENT_REGISTRY 2
+#endif
+#ifndef CEDARECS_REGISTRY_SHARDS
+#define CEDARECS_REGISTRY_SHARDS 8
+#endif
+#if CEDARECS_CONCURRENT_REGISTRY < 0 || CEDARECS_CONCURRENT_REGISTRY > 2
+#error "CEDARECS_CONCURRENT_REGISTRY must be 0 (ordinary), 1 (concurrent), or 2 (automatic)"
+#endif
+#if CEDARECS_REGISTRY_SHARDS < 1 || (CEDARECS_REGISTRY_SHARDS & (CEDARECS_REGISTRY_SHARDS - 1))
+#error "CEDARECS_REGISTRY_SHARDS must be a positive power of two"
+#endif
+#if CEDARECS_CONCURRENT_REGISTRY != 0
+#include <kama/kama_conc.h>
+#endif
+#if CEDARECS_CONCURRENT_REGISTRY == 1
+kama_conc_u64(ced_ThreadMap, ced_ThreadBuffer *)
+#else
 kama_u64(ced_ThreadMap, ced_ThreadBuffer *)
+#endif
+#if CEDARECS_CONCURRENT_REGISTRY == 2
+kama_conc_u64(ced_SharedThreadMap, ced_ThreadBuffer *)
+#endif
 
 typedef struct ced_Runtime {
 	ced_Mutex mutex;
@@ -200,6 +224,9 @@ typedef struct ced_Runtime {
 	ced_Archetype *inline_archetypes[8];
 	ced_ThreadBuffer *buffers;
 	ced_ThreadMap_t threads;
+#if CEDARECS_CONCURRENT_REGISTRY == 1
+	atomic_bool threads_ready;
+#endif
 	struct ced_WorkerPool *pool;
 	atomic_bool parallel, has_buffers, indexed_entities_ready;
 	uint64_t view_sequence;
@@ -209,6 +236,11 @@ typedef struct ced_Runtime {
 	ced_Component *deferred_touched;
 	size_t deferred_capacity;
 	bool flushing;
+#if CEDARECS_CONCURRENT_REGISTRY == 2
+	uint8_t registry_score, registry_burst;
+	uint64_t registry_previous_owner;
+	_Atomic(ced_SharedThreadMap_t *) shared_threads;
+#endif
 } ced_Runtime;
 
 typedef struct ced_Allocation {
@@ -216,9 +248,9 @@ typedef struct ced_Allocation {
 	ced_Runtime runtime;
 } ced_Allocation;
 
-// Records at the last geometric capacity occupy exactly the VM threshold.
-// Keep that boundary native so short-lived worlds can reuse allocator pages.
-// The next bounded increment transitions once to growable virtual storage.
+// The last geometric record capacity fills exactly the VM threshold. Use native
+// storage through that boundary so short-lived worlds can reuse allocator pages.
+// The next bounded increment switches to growable virtual storage.
 static inline bool ced_records_use_native(size_t capacity) {
     return CEDARECS_VM_STORAGE && capacity <= CEDARECS_VM_THRESHOLD / sizeof(ced_Record);
 }
@@ -254,8 +286,8 @@ static inline const ced_Record *ced_record_const(const ced_World *w, ced_Entity 
 static inline ced_Record *ced_record(ced_World *w, ced_Entity e) {
 	return (ced_Record *)ced_record_const(w, e);
 }
-// Constant-size memmoves retain overlap safety while avoiding a libc call for
-// common component sizes. Other sizes use the ordinary portable fallback.
+// Inline copies for common component sizes preserve memmove overlap behavior.
+// Other sizes use the portable fallback.
 #if defined(__GNUC__) || defined(__clang__)
 #define CEDARECS_ALWAYS_INLINE static inline __attribute__((always_inline))
 #else
@@ -263,7 +295,7 @@ static inline ced_Record *ced_record(ced_World *w, ced_Entity e) {
 #endif
 #if defined(__has_builtin) && !defined(CEDARECS_PORTABLE_MEMORY)
 #if __has_builtin(__builtin_memcpy_inline)
-// Snapshot the complete source before writing, retaining memmove overlap safety.
+// Read the entire source before writing so overlapping ranges are safe.
 #define CEDARECS_COPY_FIXED(bytes) do { \
     unsigned char value[bytes]; \
     __builtin_memcpy_inline(value, src, bytes); \
@@ -313,8 +345,8 @@ static inline void ced_zero_value(void *dst, size_t size) {
     default: memset(dst, 0, size); return;
     }
 }
-// Resolve a homogeneous signature's width once per row, rather than once per
-// component. Mixed signatures and arbitrary widths keep the general path.
+// Resolve the shared component width once per row for homogeneous signatures.
+// Mixed signatures and arbitrary widths use the general path.
 static inline void ced_zero_row(ced_Archetype *arch, size_t row) {
     const size_t count = arch->type_count;
     const ced_Column *columns = arch->columns;
@@ -381,8 +413,8 @@ void ced_move_entity_mapped(ced_World *world, ced_Entity entity, ced_Archetype *
 void ced_default_update(ced_World *world);
 void ced_indexed_reserve(ced_World *world, ced_Component component);
 void ced_indexed_reserve_slot(ced_World *world, ced_Component component, uint32_t index);
-// For indexed signatures this field bounds the slots prepared in every
-// component, rather than tracking prior packed-row initialization.
+// For indexed signatures this bounds the prepared slots shared by all components.
+// For packed signatures it tracks how many rows have been initialized.
 static inline size_t ced_indexed_row_capacity(const ced_World *world,
                                                const ced_Archetype *arch) {
     size_t capacity = world->entity_capacity;

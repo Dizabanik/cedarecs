@@ -102,9 +102,9 @@ static void ced_execute_serial_unbound(ced_Worker *worker) {
 		const ced_Batch *source = pool->jobs[index].source;
 		ced_Batch batch = *source;
 		batch.column_ptrs = worker->columns;
-        // Two bound fields are common in update systems. Keep their strides
-        // and cursors in registers; callbacks still receive checked batches
-        // and the exact requested maximum grain. Other shapes use the loop.
+        // Update systems often bind two fields. Keep their strides and cursors
+        // in registers while passing checked batches to callbacks and honoring
+        // the requested maximum grain. Other field counts use the loop.
         if (batch.query->component_count == 2 && source->column_ptrs[0] && source->column_ptrs[1]) {
             unsigned char *first = source->column_ptrs[0], *second = source->column_ptrs[1];
             size_t first_size = batch.query->_field_sizes[0], second_size = batch.query->_field_sizes[1];
@@ -182,8 +182,8 @@ static void ced_execute_jobs(ced_Worker *worker) {
 	size_t begin, end;
 	while (ced_claim(worker, pool->claim_size, &begin, &end))
 		ced_execute_range(worker, begin, end);
-	// Each queue is private in the common path. Only the balancing tail uses
-	// cross-worker CAS, avoiding a single contended counter for every slice.
+	// Workers normally use private queues. Only the balancing tail uses CAS
+	// across workers, avoiding contention on a shared counter for every slice.
 	size_t total = pool->thread_count + 1;
 	for (size_t offset = 1; offset < total; offset++) {
 		size_t victim = (worker->index + offset) % total;
@@ -397,6 +397,22 @@ static void ced_prepare_jobs(ced_WorkerPool *pool, ced_View *view, size_t grain)
 		pool->claim_size = 4;
 }
 
+enum { ced_single_batch_fields = 16 };
+// Keep callback metadata and column scratch off the multi-job dispatch stack.
+// The caller checks the field count before entry.
+#if defined(__GNUC__) || defined(__clang__)
+__attribute__((noinline))
+#endif
+static void ced_execute_single_batch(ced_World *w, const ced_Batch *source,
+                                      ced_BatchFn fn, void *context) {
+    ced_Batch batch = *source;
+    void *columns[ced_single_batch_fields];
+    for (size_t c = 0; c < source->query->component_count; c++)
+        columns[c] = source->column_ptrs[c];
+    batch.column_ptrs = columns;
+    fn(w, &batch, context);
+}
+
 static bool ced_parallel_dispatch(ced_View *view, size_t grain, bool automatic, ced_BatchFn fn, void *context) {
 	if (!view || !fn)
 		return false;
@@ -420,6 +436,16 @@ static bool ced_parallel_dispatch(ced_View *view, size_t grain, bool automatic, 
             if (grain < 64) grain = 64;
         }
     } else if (!grain) grain = 1024;
+    // Run a single indivisible slice locally, honoring the requested grain,
+    // mutation exclusion and final flush. No worker wakeup or default pool is
+    // needed. Empty views still flush commands.
+    if (!view->match_count) goto finished;
+    if (view->match_count == 1 && view->matches[0].count <= grain &&
+        view->component_count <= ced_single_batch_fields) {
+        if (view->matches[0].count)
+            ced_execute_single_batch(w, &view->matches[0], fn, context);
+        goto finished;
+    }
 	if (!w->_runtime->pool)
 		w->_runtime->pool = ced_pool_new(w, 1);
 	ced_WorkerPool *pool = w->_runtime->pool;
@@ -473,6 +499,7 @@ static bool ced_parallel_dispatch(ced_View *view, size_t grain, bool automatic, 
 			ced_unlock(&pool->mutex);
 		}
 	}
+finished:
 	atomic_store_explicit(&w->_runtime->parallel, false, memory_order_release);
 	ced_flush_commands(w);
 	return true;

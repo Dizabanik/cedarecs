@@ -4,9 +4,8 @@ static atomic_uint_fast64_t ced_world_sequence = 1;
 
 static ced_World *ced_init_storage(bool indexed) {
 	ced_Allocation *allocation = ced_xmalloc(sizeof(*allocation));
-    // Unused entity slots are never read: fresh creation initializes a full
-    // record before publication. Keep metadata zeroed without clearing the
-    // entire inline record reserve on every short-lived world construction.
+    // Creation initializes each record before publishing it; unused slots are
+    // never read. Zero the metadata without clearing the inline record reserve.
     memset(&allocation->world, 0, sizeof(allocation->world));
     ced_Runtime *runtime=&allocation->runtime;
     size_t records_begin=offsetof(ced_Runtime,inline_records);
@@ -28,6 +27,11 @@ static ced_World *ced_init_storage(bool indexed) {
 	ced_mutex_init(&w->_runtime->mutex);
 	atomic_init(&w->_runtime->parallel, false);
 	atomic_init(&w->_runtime->has_buffers, false);
+#if CEDARECS_CONCURRENT_REGISTRY == 2
+	atomic_init(&w->_runtime->shared_threads, NULL);
+#elif CEDARECS_CONCURRENT_REGISTRY == 1
+	atomic_init(&w->_runtime->threads_ready, false);
+#endif
 	atomic_init(&w->_runtime->indexed_entities_ready, false);
 	atomic_init(&w->ecs_quit, false);
 	ced_reserve_entities(w, 256);
@@ -207,8 +211,8 @@ ced_Entity ced_entity_from_plan_values(ced_World *w, const ced_SpawnPlan *plan,
     }
 	if (!values || !growing)
 		return ced_create_in(w, arch, values);
-	// A growth can relocate the source values. Capture before reallocating any
-	// columns, including the pointer array if the caller stored it in a column.
+	// Growth may move the source values. Save them before reallocating columns,
+	// including the pointer array if the caller stored it in a column.
 	const void *local_ptrs[32];
 	const void **ptrs = arch->type_count <= 32 ? local_ptrs :
 		ced_xmalloc(ced_bytes(arch->type_count, sizeof(*ptrs)));
@@ -291,9 +295,8 @@ void ced_entity_destroy(ced_World *w, ced_Entity entity) {
             if (moved != ced_entity_none) w->entities[ced_entity_index(moved)].row = rec->row;
         }
 	}
-	// ced_record already checked every generation bit against this handle.
-	// Reuse that value across owner clearing instead of reloading a record that
-	// the compiler must conservatively treat as aliased by the owner arrays.
+	// ced_record checked the full generation. Reuse the handle while clearing
+	// owners, since possible aliases would otherwise force a record reload.
 	uint32_t generation = (uint32_t)(entity >> 32);
 	uint32_t next_generation = generation == UINT32_MAX ? generation : generation + 1;
 	*rec = (ced_Record){NULL, 0, next_generation};

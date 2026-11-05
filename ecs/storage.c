@@ -26,8 +26,8 @@ typedef struct ced_VirtualStorage {
 static size_t ced_storage_native_backing(size_t size) {
     if (size < ced_storage_threshold / 2) return size;
     size_t backing=ced_capacity(0,size);
-    // A small alignment/cache-color prefix must not double a power-of-two
-    // payload. Subsequent substantial growth still gets geometric backing.
+    // A small prefix for alignment or cache coloring should not double a
+    // power-of-two allocation. Larger increases still use geometric growth.
     size_t previous=backing/2;
     return size-previous<=8192 ? size : backing;
 }
@@ -49,7 +49,7 @@ static void *ced_storage_map(size_t size, size_t alignment) {
     void *base = mmap(NULL, total, PROT_READ | PROT_WRITE,
                      MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
     if (base == MAP_FAILED) {
-        // Address-space pressure must not require the preferred spare reserve.
+        // If the spare address range cannot be reserved, try just the requested size.
         if (size > SIZE_MAX - alignment - page) abort();
         total = (size + alignment + page - 1) & ~(page - 1);
         base = mmap(NULL, total, PROT_READ | PROT_WRITE,

@@ -147,12 +147,13 @@ ihmap_kv *ihmap_create_pair(int key, void *value) {
 bool ihmap_insert(ihmap *map, int key, void *value) {
 	if (!map)
 		return false;
-	kama_result_t result = wex_IntMap_put(&map->map, (uint32_t)key, value);
-	if (result == KAMA_ERROR)
+	wex_IntMap_entry_t entry = wex_IntMap_entry(&map->map, (uint32_t)key);
+	if (!entry.result)
 		abort();
+	*entry.value = value;
 	map->size = wex_IntMap_count(&map->map);
 	map->capacity = map->map.capacity;
-	return result == KAMA_INSERTED;
+	return entry.inserted;
 }
 void *ihmap_get(ihmap *map, int key) {
 	void *value = NULL;

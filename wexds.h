@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <kama/kama.h>
 
-// Minimal try/catch over setjmp/longjmp:
+// try/catch macros using setjmp/longjmp:
 //     TRY { ... } CATCH { ... } ETRY;
 #define TRY                                                                            \
 	do {                                                                               \
@@ -124,13 +124,13 @@ size_t wex_stack_size_t_pop(wex_stack_size_t *st);
 void wex_stack_size_t_free(wex_stack_size_t *st);
 
 wex_queue *wex_queue_init(size_t start_size);
-// Dynamic circular queue — grows on demand.
+// Circular queue that grows as needed.
 void wex_enqueue(wex_queue *queue, void *value);
 void *wex_dequeue(wex_queue *queue);
-// Fixed circular queue — full enqueues overwrite. Watch out.
+// Fixed circular queue. Enqueuing when full overwrites an existing entry.
 void wex_enqueue_c(wex_queue *queue, void *value);
 void *wex_dequeue_c(wex_queue *queue);
-// Simple dynamic queue (no wraparound).
+// Dynamic queue without wraparound.
 void wex_enqueue_d(wex_queue *queue, void *value);
 void *wex_dequeue_d(wex_queue *queue);
 void wex_queue_free(wex_queue *queue);
@@ -148,8 +148,8 @@ linked_node *add_node(linked_list *list, void *value);
 void remove_node(linked_list *list, int id);
 linked_node *get_node(linked_list *list, int id);
 void *get_data(linked_list *list, int id);
-// Pointer list: removals and free_list own/free elements. size is reserved.
-// Linked lists own nodes only.
+// Pointer lists free elements on removal and in free_list. size reserves capacity.
+// Linked lists free their nodes, but leave the values to the caller.
 list *init_list(size_t size);
 linked_list *init_llist(void);
 // Returns the new element's index.
@@ -164,7 +164,7 @@ void free_llist(linked_list *llist);
 ihmap *ihmap_init(size_t capacity);
 ihmap_kv *ihmap_create_pair(int key, void *value);
 int ihash(int key, size_t capacity);
-// False if the key already exists (its value gets overwritten), true otherwise.
+// Overwrites existing values. Returns true only when inserting a new key.
 bool ihmap_insert(ihmap *map, int key, void *value);
 void *ihmap_get(ihmap *map, int key);
 bool ihmap_contains(ihmap *map, int key);

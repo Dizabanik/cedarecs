@@ -1,0 +1,2625 @@
+{
+  "cedar": {
+    "copied_from": "../include/cedarecs",
+    "parent_git_head": "a2a7ed74ebcf784d0aab3bd2707ee86c53eec55f",
+    "includes_uncommitted_work": true,
+    "snapshot_sha256": "179e69865c33f154d4e7cbb3e30336f81fb74a2f235843af4e8efbe8f34400b4",
+    "files": {
+      "cedarecs/API_GUIDE.md": "17a2b75e03a84044bec151d5b2f0bcb93d510fb0c51cab460161818e9a9c2398",
+      "cedarecs/README.md": "05b5ead1fc3c9e55f6cda93eab7c21ebc90b131ae69bf1e652efe0cff365f8b9",
+      "cedarecs/access.h": "74f316ff0a0bbde0c6f31553c4dc7162f07772e23b1fd6768392aefc6566d171",
+      "cedarecs/cedar.h": "5ada685dc686d7fd4cb6b8d5e3f428e0eced3d557bdc2405be2f4943954e225b",
+      "cedarecs/ecs/archetype.c": "4f21b4e329fb98ea582b84fcbcfbd5899fd781807a65a0e6ea8499dce6d8afb0",
+      "cedarecs/ecs/component.c": "b570b60eab72a5df0e399449c1badd19a510aee736019817ad77b6b736d715d6",
+      "cedarecs/ecs/construct.c": "9f632dc187dff349aa85a7be86e303c2167406f4fd0a71e89a1682446f9a8d5c",
+      "cedarecs/ecs/defer.c": "c7e45e50e04e9bc7fecaed530862c252e379e3f6534bee9f3bb5da513afb5e71",
+      "cedarecs/ecs/indexed.c": "cfe0a44666d13a68a3cf3c8f43a9fcbe333862891b815b4b6ed48b4face10879",
+      "cedarecs/ecs/internal.h": "e5951a9ae0b43ee2e3022a3379c39e2bc85ee1198dc24c515b544307dc99f674",
+      "cedarecs/ecs/parallel.c": "fc88cafff5e606442df9059ecd7a2d3938b13560c9e3be573c90fcf6f7e57168",
+      "cedarecs/ecs/query.c": "e7766c2943357ce6a5901ec57ceef429ac29ce717a9cc9014ba0cb03b580a6b8",
+      "cedarecs/ecs/storage.c": "4355cc29ee76a3205913133b12e5462ccb7f57832e56baef1fb275bf254b5cb0",
+      "cedarecs/ecs/system.c": "004210e7c2a0c7efea80a7022314673c1ada656a5784c59f70e9d1eb9eb57a27",
+      "cedarecs/ecs/world.c": "dfe679ef5ca91ca78bc033204fd953f52c76d5c759cbbab49a21b04735144ac7",
+      "cedarecs/helpers.h": "37f16692c53fc7bf3ef99b32ed25a4e5abeb75b29b6baac1e6cc7f53cde9f46b",
+      "cedarecs/wexds.c": "f1a9e31de4c50e91d48c9f83398a559939d459faf67efe3f396c5a17067b82b7",
+      "cedarecs/wexds.h": "9f3b4b03494c12cd1b9e4e442a006b9542cd1d7d4d716024a1830eaf8ad4e64d"
+    },
+    "label": "adaptive-ecs-v121",
+    "derived_from": "29c708679e617681df761fdbec7a5e965b0dc300b87b591079eecab4a90e83f4",
+    "recorded_utc": "2026-11-04T18:03:24.918389+00:00",
+    "benchmark_adapter_sha256": "1288dc224ed195f5da7aea54a26a581e99137e3df6351cc687d7c48b3b2d4f9b"
+  },
+  "kama": {
+    "copied_from": "../include/kama",
+    "commit": "e838e2a4a1b0ea20f98007fbae4b1a2e723ae97d",
+    "header_sha256": "6ae41c90cadf942cde3f64c387c939a91e8c7115bf75ed8aa9264f5944e9a577",
+    "concurrent_header_sha256": "5ab0f49ee04ae5abbb45c7fe3586f03ca5b836c6401b02ddc54fdc43f3453f1d"
+  },
+  "timing_cases": 850,
+  "preview": false,
+  "registry_cases": 24,
+  "memory_panels": 782,
+  "atlas_pages": [
+    {
+      "page": 1,
+      "section": "Entity comparison",
+      "cases": [
+        "BM_CreateEmptyEntities/1",
+        "BM_CreateEmptyEntities/1024",
+        "BM_CreateEmptyEntities/65536",
+        "BM_CreateEntities/1",
+        "BM_CreateEntities/1024",
+        "BM_CreateEntities/65536",
+        "BM_DestroyEntities/1",
+        "BM_DestroyEntities/1024",
+        "BM_DestroyEntities/65536",
+        "BM_AddComponent/1",
+        "BM_AddComponent/1024",
+        "BM_AddComponent/65536"
+      ]
+    },
+    {
+      "page": 2,
+      "section": "Entity comparison",
+      "cases": [
+        "BM_RemoveAddComponent/1",
+        "BM_RemoveAddComponent/1024",
+        "BM_RemoveAddComponent/65536",
+        "BM_UnpackNoComponent/1",
+        "BM_UnpackNoComponent/1024",
+        "BM_UnpackNoComponent/65536",
+        "BM_UnpackOneComponent/1",
+        "BM_UnpackOneComponent/1024",
+        "BM_UnpackOneComponent/65536",
+        "BM_UnpackTwoComponents/1",
+        "BM_UnpackTwoComponents/1024",
+        "BM_UnpackTwoComponents/65536"
+      ]
+    },
+    {
+      "page": 3,
+      "section": "Entity comparison",
+      "cases": [
+        "BM_UnpackThreeComponents/1",
+        "BM_UnpackThreeComponents/1024",
+        "BM_UnpackThreeComponents/65536",
+        "BM_CreateNoEntities"
+      ]
+    },
+    {
+      "page": 4,
+      "section": "Original \u00b7 Cedar vs Flecs",
+      "cases": [
+        "add_remove/entities=10000,threads=1",
+        "add_remove/entities=100000,threads=1",
+        "add_remove/entities=1000000,threads=1",
+        "create_empty/entities=10000,threads=1",
+        "create_empty/entities=100000,threads=1",
+        "create_empty/entities=1000000,threads=1",
+        "create_pv/entities=10000,threads=1",
+        "create_pv/entities=100000,threads=1",
+        "create_pv/entities=1000000,threads=1",
+        "defer_add_remove/entities=10000,threads=1",
+        "defer_add_remove/entities=100000,threads=1",
+        "defer_add_remove/entities=1000000,threads=1"
+      ]
+    },
+    {
+      "page": 5,
+      "section": "Original \u00b7 Cedar vs Flecs",
+      "cases": [
+        "delete_pv/entities=10000,threads=1",
+        "delete_pv/entities=100000,threads=1",
+        "delete_pv/entities=1000000,threads=1",
+        "frame_heavy/entities=100000,threads=1",
+        "frame_heavy/entities=100000,threads=14",
+        "frame_heavy/entities=100000,threads=2",
+        "frame_heavy/entities=100000,threads=4",
+        "frame_heavy/entities=100000,threads=8",
+        "frame_heavy/entities=1000000,threads=1",
+        "frame_heavy/entities=1000000,threads=14",
+        "frame_heavy/entities=1000000,threads=2",
+        "frame_heavy/entities=1000000,threads=4"
+      ]
+    },
+    {
+      "page": 6,
+      "section": "Original \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame_heavy/entities=1000000,threads=8",
+        "frame_light/entities=100000,threads=1",
+        "frame_light/entities=100000,threads=14",
+        "frame_light/entities=100000,threads=2",
+        "frame_light/entities=100000,threads=4",
+        "frame_light/entities=100000,threads=8",
+        "frame_light/entities=1000000,threads=1",
+        "frame_light/entities=1000000,threads=14",
+        "frame_light/entities=1000000,threads=2",
+        "frame_light/entities=1000000,threads=4",
+        "frame_light/entities=1000000,threads=8",
+        "iterate/entities=10000,threads=1"
+      ]
+    },
+    {
+      "page": 7,
+      "section": "Original \u00b7 Cedar vs Flecs",
+      "cases": [
+        "iterate/entities=100000,threads=1",
+        "iterate/entities=1000000,threads=1",
+        "iterate_fragmented/entities=10000,threads=1",
+        "iterate_fragmented/entities=100000,threads=1",
+        "iterate_fragmented/entities=1000000,threads=1",
+        "random_get/entities=10000,threads=1",
+        "random_get/entities=100000,threads=1",
+        "random_get/entities=1000000,threads=1",
+        "set_existing/entities=10000,threads=1",
+        "set_existing/entities=100000,threads=1",
+        "set_existing/entities=1000000,threads=1",
+        "write_existing/entities=10000,threads=1"
+      ]
+    },
+    {
+      "page": 8,
+      "section": "Original \u00b7 Cedar vs Flecs",
+      "cases": [
+        "write_existing/entities=100000,threads=1",
+        "write_existing/entities=1000000,threads=1"
+      ]
+    },
+    {
+      "page": 9,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "add_existing/entities=1000,threads=1",
+        "add_existing/entities=1000,threads=1,bytes=0",
+        "add_existing/entities=1000,threads=1,width=32",
+        "add_existing/entities=1000,threads=1,width=32,bytes=0",
+        "add_existing/entities=1000,threads=1,width=8",
+        "add_existing/entities=1000,threads=1,width=8,bytes=0",
+        "add_existing/entities=100000,threads=1",
+        "add_existing/entities=100000,threads=1,bytes=0",
+        "add_existing/entities=100000,threads=1,width=32",
+        "add_existing/entities=100000,threads=1,width=32,bytes=0",
+        "add_existing/entities=100000,threads=1,width=8",
+        "add_existing/entities=100000,threads=1,width=8,bytes=0"
+      ]
+    },
+    {
+      "page": 10,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "churn/entities=10000,threads=1,width=2,percent=1,shuffled=1",
+        "churn/entities=10000,threads=1,width=2,percent=50,shuffled=1",
+        "churn/entities=10000,threads=1,width=2,shuffled=1",
+        "churn/entities=100000,threads=1,width=2,percent=1,shuffled=1",
+        "churn/entities=100000,threads=1,width=2,percent=50,shuffled=1",
+        "churn/entities=100000,threads=1,width=2,shuffled=1",
+        "create/entities=1000,threads=1",
+        "create/entities=1000,threads=1,reserve=1",
+        "create/entities=1000,threads=1,width=32",
+        "create/entities=1000,threads=1,width=32,reserve=1",
+        "create/entities=1000,threads=1,width=8",
+        "create/entities=1000,threads=1,width=8,reserve=1"
+      ]
+    },
+    {
+      "page": 11,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "create/entities=10000,threads=1,width=8,bytes=64",
+        "create/entities=10000,threads=1,width=8,bytes=64,reserve=1",
+        "create/entities=100000,threads=1",
+        "create/entities=100000,threads=1,reserve=1",
+        "create/entities=100000,threads=1,width=32",
+        "create/entities=100000,threads=1,width=32,reserve=1",
+        "create/entities=100000,threads=1,width=8",
+        "create/entities=100000,threads=1,width=8,reserve=1",
+        "create_incremental/entities=1000,threads=1",
+        "create_incremental/entities=1000,threads=1,reserve=1",
+        "create_incremental/entities=1000,threads=1,width=32",
+        "create_incremental/entities=1000,threads=1,width=32,reserve=1"
+      ]
+    },
+    {
+      "page": 12,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "create_incremental/entities=1000,threads=1,width=8",
+        "create_incremental/entities=1000,threads=1,width=8,reserve=1",
+        "create_incremental/entities=10000,threads=1,width=8,bytes=64",
+        "create_incremental/entities=10000,threads=1,width=8,bytes=64,reserve=1",
+        "create_incremental/entities=100000,threads=1",
+        "create_incremental/entities=100000,threads=1,reserve=1",
+        "create_incremental/entities=100000,threads=1,width=32",
+        "create_incremental/entities=100000,threads=1,width=32,reserve=1",
+        "create_incremental/entities=100000,threads=1,width=8",
+        "create_incremental/entities=100000,threads=1,width=8,reserve=1",
+        "defer_cancel/entities=1000,threads=1",
+        "defer_cancel/entities=1000,threads=1,bytes=0"
+      ]
+    },
+    {
+      "page": 13,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "defer_cancel/entities=1000,threads=1,width=16",
+        "defer_cancel/entities=1000,threads=1,width=16,bytes=0",
+        "defer_cancel/entities=1000,threads=1,width=2",
+        "defer_cancel/entities=1000,threads=1,width=2,bytes=0",
+        "defer_cancel/entities=1000,threads=1,width=32",
+        "defer_cancel/entities=1000,threads=1,width=32,bytes=0",
+        "defer_cancel/entities=1000,threads=1,width=8",
+        "defer_cancel/entities=1000,threads=1,width=8,bytes=0",
+        "defer_cancel/entities=10000,threads=1",
+        "defer_cancel/entities=10000,threads=1,bytes=0",
+        "defer_cancel/entities=10000,threads=1,width=16",
+        "defer_cancel/entities=10000,threads=1,width=16,bytes=0"
+      ]
+    },
+    {
+      "page": 14,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "defer_cancel/entities=10000,threads=1,width=2",
+        "defer_cancel/entities=10000,threads=1,width=2,bytes=0",
+        "defer_cancel/entities=10000,threads=1,width=32",
+        "defer_cancel/entities=10000,threads=1,width=32,bytes=0",
+        "defer_cancel/entities=10000,threads=1,width=8",
+        "defer_cancel/entities=10000,threads=1,width=8,bytes=0",
+        "defer_phase/entities=1000,threads=1",
+        "defer_phase/entities=1000,threads=1,bytes=0",
+        "defer_phase/entities=1000,threads=1,width=16",
+        "defer_phase/entities=1000,threads=1,width=16,bytes=0",
+        "defer_phase/entities=1000,threads=1,width=2",
+        "defer_phase/entities=1000,threads=1,width=2,bytes=0"
+      ]
+    },
+    {
+      "page": 15,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "defer_phase/entities=1000,threads=1,width=32",
+        "defer_phase/entities=1000,threads=1,width=32,bytes=0",
+        "defer_phase/entities=1000,threads=1,width=8",
+        "defer_phase/entities=1000,threads=1,width=8,bytes=0",
+        "defer_phase/entities=10000,threads=1",
+        "defer_phase/entities=10000,threads=1,bytes=0",
+        "defer_phase/entities=10000,threads=1,width=16",
+        "defer_phase/entities=10000,threads=1,width=16,bytes=0",
+        "defer_phase/entities=10000,threads=1,width=2",
+        "defer_phase/entities=10000,threads=1,width=2,bytes=0",
+        "defer_phase/entities=10000,threads=1,width=32",
+        "defer_phase/entities=10000,threads=1,width=32,bytes=0"
+      ]
+    },
+    {
+      "page": 16,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "defer_phase/entities=10000,threads=1,width=8",
+        "defer_phase/entities=10000,threads=1,width=8,bytes=0",
+        "delete/entities=1000,threads=1",
+        "delete/entities=1000,threads=1,bytes=256",
+        "delete/entities=1000,threads=1,bytes=256,shuffled=1",
+        "delete/entities=1000,threads=1,shuffled=1",
+        "delete/entities=1000,threads=1,width=8",
+        "delete/entities=1000,threads=1,width=8,bytes=256",
+        "delete/entities=1000,threads=1,width=8,bytes=256,shuffled=1",
+        "delete/entities=1000,threads=1,width=8,shuffled=1",
+        "delete/entities=10000,threads=1",
+        "delete/entities=10000,threads=1,bytes=256"
+      ]
+    },
+    {
+      "page": 17,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "delete/entities=10000,threads=1,bytes=256,shuffled=1",
+        "delete/entities=10000,threads=1,shuffled=1",
+        "delete/entities=10000,threads=1,width=8",
+        "delete/entities=10000,threads=1,width=8,bytes=256",
+        "delete/entities=10000,threads=1,width=8,bytes=256,shuffled=1",
+        "delete/entities=10000,threads=1,width=8,shuffled=1",
+        "frame/entities=1000,threads=1",
+        "frame/entities=1000,threads=1,grain=16384",
+        "frame/entities=1000,threads=1,grain=64",
+        "frame/entities=1000,threads=1,width=4",
+        "frame/entities=1000,threads=1,width=4,systems=32",
+        "frame/entities=1000,threads=1,width=4,systems=8"
+      ]
+    },
+    {
+      "page": 18,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame/entities=1000,threads=14",
+        "frame/entities=1000,threads=14,grain=16384",
+        "frame/entities=1000,threads=14,grain=64",
+        "frame/entities=1000,threads=2",
+        "frame/entities=1000,threads=2,grain=16384",
+        "frame/entities=1000,threads=2,grain=64",
+        "frame/entities=1000,threads=4",
+        "frame/entities=1000,threads=4,grain=16384",
+        "frame/entities=1000,threads=4,grain=64",
+        "frame/entities=1000,threads=4,width=4",
+        "frame/entities=1000,threads=4,width=4,systems=32",
+        "frame/entities=1000,threads=4,width=4,systems=8"
+      ]
+    },
+    {
+      "page": 19,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame/entities=1000,threads=8",
+        "frame/entities=1000,threads=8,grain=16384",
+        "frame/entities=1000,threads=8,grain=64",
+        "frame/entities=100000,threads=1",
+        "frame/entities=100000,threads=1,bits=10",
+        "frame/entities=100000,threads=1,bits=6",
+        "frame/entities=100000,threads=1,grain=16384",
+        "frame/entities=100000,threads=1,grain=64",
+        "frame/entities=100000,threads=1,width=4",
+        "frame/entities=100000,threads=1,width=4,rounds=32",
+        "frame/entities=100000,threads=1,width=4,systems=32",
+        "frame/entities=100000,threads=1,width=4,systems=8"
+      ]
+    },
+    {
+      "page": 20,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame/entities=100000,threads=14",
+        "frame/entities=100000,threads=14,bits=10",
+        "frame/entities=100000,threads=14,bits=6",
+        "frame/entities=100000,threads=14,grain=16384",
+        "frame/entities=100000,threads=14,grain=64",
+        "frame/entities=100000,threads=14,width=4,rounds=32",
+        "frame/entities=100000,threads=2",
+        "frame/entities=100000,threads=2,grain=16384",
+        "frame/entities=100000,threads=2,grain=64",
+        "frame/entities=100000,threads=2,width=4,rounds=32",
+        "frame/entities=100000,threads=4",
+        "frame/entities=100000,threads=4,bits=10"
+      ]
+    },
+    {
+      "page": 21,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame/entities=100000,threads=4,bits=6",
+        "frame/entities=100000,threads=4,grain=16384",
+        "frame/entities=100000,threads=4,grain=64",
+        "frame/entities=100000,threads=4,width=4",
+        "frame/entities=100000,threads=4,width=4,rounds=32",
+        "frame/entities=100000,threads=4,width=4,systems=32",
+        "frame/entities=100000,threads=4,width=4,systems=8",
+        "frame/entities=100000,threads=8",
+        "frame/entities=100000,threads=8,grain=16384",
+        "frame/entities=100000,threads=8,grain=64",
+        "frame/entities=100000,threads=8,width=4,rounds=32",
+        "frame/entities=1000000,threads=1"
+      ]
+    },
+    {
+      "page": 22,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame/entities=1000000,threads=1,grain=16384",
+        "frame/entities=1000000,threads=1,grain=64",
+        "frame/entities=1000000,threads=1,width=4,rounds=32",
+        "frame/entities=1000000,threads=14",
+        "frame/entities=1000000,threads=14,grain=16384",
+        "frame/entities=1000000,threads=14,grain=64",
+        "frame/entities=1000000,threads=14,width=4,rounds=32",
+        "frame/entities=1000000,threads=2",
+        "frame/entities=1000000,threads=2,grain=16384",
+        "frame/entities=1000000,threads=2,grain=64",
+        "frame/entities=1000000,threads=2,width=4,rounds=32",
+        "frame/entities=1000000,threads=4"
+      ]
+    },
+    {
+      "page": 23,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame/entities=1000000,threads=4,grain=16384",
+        "frame/entities=1000000,threads=4,grain=64",
+        "frame/entities=1000000,threads=4,width=4,rounds=32",
+        "frame/entities=1000000,threads=8",
+        "frame/entities=1000000,threads=8,grain=16384",
+        "frame/entities=1000000,threads=8,grain=64",
+        "frame/entities=1000000,threads=8,width=4,rounds=32",
+        "frame_commands/entities=1000,threads=1",
+        "frame_commands/entities=1000,threads=1,grain=64",
+        "frame_commands/entities=1000,threads=14",
+        "frame_commands/entities=1000,threads=14,grain=64",
+        "frame_commands/entities=1000,threads=4"
+      ]
+    },
+    {
+      "page": 24,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame_commands/entities=1000,threads=4,grain=64",
+        "frame_commands/entities=100000,threads=1",
+        "frame_commands/entities=100000,threads=1,grain=64",
+        "frame_commands/entities=100000,threads=14",
+        "frame_commands/entities=100000,threads=14,grain=64",
+        "frame_commands/entities=100000,threads=4",
+        "frame_commands/entities=100000,threads=4,grain=64",
+        "get_empty/entities=1000,threads=1",
+        "get_empty/entities=1000,threads=1,shuffled=1",
+        "get_empty/entities=100000,threads=1",
+        "get_empty/entities=100000,threads=1,shuffled=1",
+        "get_hit/entities=1000,threads=1"
+      ]
+    },
+    {
+      "page": 25,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "get_hit/entities=1000,threads=1,shuffled=1",
+        "get_hit/entities=1000,threads=1,width=32",
+        "get_hit/entities=1000,threads=1,width=32,shuffled=1",
+        "get_hit/entities=1000,threads=1,width=8",
+        "get_hit/entities=1000,threads=1,width=8,shuffled=1",
+        "get_hit/entities=100000,threads=1",
+        "get_hit/entities=100000,threads=1,shuffled=1",
+        "get_hit/entities=100000,threads=1,width=32",
+        "get_hit/entities=100000,threads=1,width=32,shuffled=1",
+        "get_hit/entities=100000,threads=1,width=8",
+        "get_hit/entities=100000,threads=1,width=8,shuffled=1",
+        "get_miss/entities=1000,threads=1"
+      ]
+    },
+    {
+      "page": 26,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "get_miss/entities=1000,threads=1,shuffled=1",
+        "get_miss/entities=1000,threads=1,width=32",
+        "get_miss/entities=1000,threads=1,width=32,shuffled=1",
+        "get_miss/entities=100000,threads=1",
+        "get_miss/entities=100000,threads=1,shuffled=1",
+        "get_miss/entities=100000,threads=1,width=32",
+        "get_miss/entities=100000,threads=1,width=32,shuffled=1",
+        "get_stale/entities=1000,threads=1",
+        "get_stale/entities=1000,threads=1,shuffled=1",
+        "get_stale/entities=100000,threads=1",
+        "get_stale/entities=100000,threads=1,shuffled=1",
+        "has_mixed/entities=1000,threads=1"
+      ]
+    },
+    {
+      "page": 27,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "has_mixed/entities=1000,threads=1,percent=50",
+        "has_mixed/entities=1000,threads=1,percent=50,shuffled=1",
+        "has_mixed/entities=1000,threads=1,percent=90",
+        "has_mixed/entities=1000,threads=1,percent=90,shuffled=1",
+        "has_mixed/entities=1000,threads=1,shuffled=1",
+        "has_mixed/entities=100000,threads=1",
+        "has_mixed/entities=100000,threads=1,percent=50",
+        "has_mixed/entities=100000,threads=1,percent=50,shuffled=1",
+        "has_mixed/entities=100000,threads=1,percent=90",
+        "has_mixed/entities=100000,threads=1,percent=90,shuffled=1",
+        "has_mixed/entities=100000,threads=1,shuffled=1",
+        "pointer_chase/entities=1000,threads=1"
+      ]
+    },
+    {
+      "page": 28,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "pointer_chase/entities=10000,threads=1",
+        "pointer_chase/entities=100000,threads=1",
+        "query_build/entities=1000,threads=1,bits=10,terms=1",
+        "query_build/entities=1000,threads=1,bits=10,terms=4",
+        "query_build/entities=1000,threads=1,bits=6,terms=1",
+        "query_build/entities=1000,threads=1,bits=6,terms=4",
+        "query_build/entities=100000,threads=1,bits=10,terms=1",
+        "query_build/entities=100000,threads=1,bits=10,terms=4",
+        "query_build/entities=100000,threads=1,bits=6,terms=1",
+        "query_build/entities=100000,threads=1,bits=6,terms=4",
+        "query_churn/entities=1000,threads=1",
+        "query_churn/entities=1000,threads=1,bits=6"
+      ]
+    },
+    {
+      "page": 29,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "query_churn/entities=100000,threads=1",
+        "query_churn/entities=100000,threads=1,bits=6",
+        "query_data/entities=1000,threads=1,bits=10,terms=1",
+        "query_data/entities=1000,threads=1,bits=10,terms=4",
+        "query_data/entities=1000,threads=1,bits=10,terms=8",
+        "query_data/entities=1000,threads=1,bits=6,terms=1",
+        "query_data/entities=1000,threads=1,bits=6,terms=4",
+        "query_data/entities=100000,threads=1,bits=10,terms=1",
+        "query_data/entities=100000,threads=1,bits=10,terms=4",
+        "query_data/entities=100000,threads=1,bits=10,terms=8",
+        "query_data/entities=100000,threads=1,bits=6,terms=1",
+        "query_data/entities=100000,threads=1,bits=6,terms=4"
+      ]
+    },
+    {
+      "page": 30,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "query_empty/entities=1000,threads=1,bits=10",
+        "query_empty/entities=1000,threads=1,bits=6",
+        "query_empty/entities=100000,threads=1,bits=10",
+        "query_empty/entities=100000,threads=1,bits=6",
+        "query_not/entities=1000,threads=1,bits=10",
+        "query_not/entities=1000,threads=1,bits=6",
+        "query_not/entities=100000,threads=1,bits=10",
+        "query_not/entities=100000,threads=1,bits=6",
+        "query_optional/entities=1000,threads=1,bits=10",
+        "query_optional/entities=1000,threads=1,bits=6",
+        "query_optional/entities=100000,threads=1,bits=10",
+        "query_optional/entities=100000,threads=1,bits=6"
+      ]
+    },
+    {
+      "page": 31,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "query_plain/entities=1000,threads=1",
+        "query_plain/entities=1000,threads=1,bits=6",
+        "query_plain/entities=1000,threads=1,width=16",
+        "query_plain/entities=1000,threads=1,width=16,bits=6",
+        "query_plain/entities=1000,threads=1,width=4",
+        "query_plain/entities=1000,threads=1,width=4,bits=6",
+        "query_plain/entities=1000,threads=1,width=8",
+        "query_plain/entities=1000,threads=1,width=8,bits=6",
+        "query_plain/entities=100000,threads=1",
+        "query_plain/entities=100000,threads=1,bits=6",
+        "query_plain/entities=100000,threads=1,width=16",
+        "query_plain/entities=100000,threads=1,width=16,bits=6"
+      ]
+    },
+    {
+      "page": 32,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "query_plain/entities=100000,threads=1,width=4",
+        "query_plain/entities=100000,threads=1,width=4,bits=6",
+        "query_plain/entities=100000,threads=1,width=8",
+        "query_plain/entities=100000,threads=1,width=8,bits=6",
+        "query_tags/entities=1000,threads=1,bits=10,terms=1",
+        "query_tags/entities=1000,threads=1,bits=10,terms=4",
+        "query_tags/entities=1000,threads=1,bits=10,terms=8",
+        "query_tags/entities=1000,threads=1,bits=6,terms=1",
+        "query_tags/entities=1000,threads=1,bits=6,terms=4",
+        "query_tags/entities=100000,threads=1,bits=10,terms=1",
+        "query_tags/entities=100000,threads=1,bits=10,terms=4",
+        "query_tags/entities=100000,threads=1,bits=10,terms=8"
+      ]
+    },
+    {
+      "page": 33,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "query_tags/entities=100000,threads=1,bits=6,terms=1",
+        "query_tags/entities=100000,threads=1,bits=6,terms=4",
+        "recycle/entities=1000,threads=1",
+        "recycle/entities=1000,threads=1,bytes=256",
+        "recycle/entities=1000,threads=1,bytes=256,shuffled=1",
+        "recycle/entities=1000,threads=1,shuffled=1",
+        "recycle/entities=1000,threads=1,width=8",
+        "recycle/entities=1000,threads=1,width=8,bytes=256",
+        "recycle/entities=1000,threads=1,width=8,bytes=256,shuffled=1",
+        "recycle/entities=1000,threads=1,width=8,shuffled=1",
+        "recycle/entities=10000,threads=1",
+        "recycle/entities=10000,threads=1,bytes=256"
+      ]
+    },
+    {
+      "page": 34,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "recycle/entities=10000,threads=1,bytes=256,shuffled=1",
+        "recycle/entities=10000,threads=1,shuffled=1",
+        "recycle/entities=10000,threads=1,width=8",
+        "recycle/entities=10000,threads=1,width=8,bytes=256",
+        "recycle/entities=10000,threads=1,width=8,bytes=256,shuffled=1",
+        "recycle/entities=10000,threads=1,width=8,shuffled=1",
+        "remove_absent/entities=1000,threads=1",
+        "remove_absent/entities=1000,threads=1,bytes=0",
+        "remove_absent/entities=1000,threads=1,width=32",
+        "remove_absent/entities=1000,threads=1,width=32,bytes=0",
+        "remove_absent/entities=1000,threads=1,width=8",
+        "remove_absent/entities=1000,threads=1,width=8,bytes=0"
+      ]
+    },
+    {
+      "page": 35,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "remove_absent/entities=100000,threads=1",
+        "remove_absent/entities=100000,threads=1,bytes=0",
+        "remove_absent/entities=100000,threads=1,width=32",
+        "remove_absent/entities=100000,threads=1,width=32,bytes=0",
+        "remove_absent/entities=100000,threads=1,width=8",
+        "remove_absent/entities=100000,threads=1,width=8,bytes=0",
+        "set_payload/entities=1000,threads=1",
+        "set_payload/entities=1000,threads=1,bytes=256",
+        "set_payload/entities=1000,threads=1,bytes=256,shuffled=1",
+        "set_payload/entities=1000,threads=1,bytes=4096",
+        "set_payload/entities=1000,threads=1,bytes=4096,shuffled=1",
+        "set_payload/entities=1000,threads=1,bytes=64"
+      ]
+    },
+    {
+      "page": 36,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "set_payload/entities=1000,threads=1,bytes=64,shuffled=1",
+        "set_payload/entities=1000,threads=1,shuffled=1",
+        "set_payload/entities=10000,threads=1",
+        "set_payload/entities=10000,threads=1,bytes=256",
+        "set_payload/entities=10000,threads=1,bytes=256,shuffled=1",
+        "set_payload/entities=10000,threads=1,bytes=4096",
+        "set_payload/entities=10000,threads=1,bytes=4096,shuffled=1",
+        "set_payload/entities=10000,threads=1,bytes=64",
+        "set_payload/entities=10000,threads=1,bytes=64,shuffled=1",
+        "set_payload/entities=10000,threads=1,shuffled=1",
+        "set_payload/entities=100000,threads=1",
+        "set_payload/entities=100000,threads=1,bytes=256"
+      ]
+    },
+    {
+      "page": 37,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "set_payload/entities=100000,threads=1,bytes=256,shuffled=1",
+        "set_payload/entities=100000,threads=1,bytes=64",
+        "set_payload/entities=100000,threads=1,bytes=64,shuffled=1",
+        "set_payload/entities=100000,threads=1,shuffled=1",
+        "toggle_entity/entities=1000,threads=1",
+        "toggle_entity/entities=1000,threads=1,bytes=0",
+        "toggle_entity/entities=1000,threads=1,width=16",
+        "toggle_entity/entities=1000,threads=1,width=16,bytes=0",
+        "toggle_entity/entities=1000,threads=1,width=2",
+        "toggle_entity/entities=1000,threads=1,width=2,bytes=0",
+        "toggle_entity/entities=1000,threads=1,width=32",
+        "toggle_entity/entities=1000,threads=1,width=32,bytes=0"
+      ]
+    },
+    {
+      "page": 38,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "toggle_entity/entities=1000,threads=1,width=8",
+        "toggle_entity/entities=1000,threads=1,width=8,bytes=0",
+        "toggle_entity/entities=10000,threads=1",
+        "toggle_entity/entities=10000,threads=1,bytes=0",
+        "toggle_entity/entities=10000,threads=1,width=16",
+        "toggle_entity/entities=10000,threads=1,width=16,bytes=0",
+        "toggle_entity/entities=10000,threads=1,width=2",
+        "toggle_entity/entities=10000,threads=1,width=2,bytes=0",
+        "toggle_entity/entities=10000,threads=1,width=32",
+        "toggle_entity/entities=10000,threads=1,width=32,bytes=0",
+        "toggle_entity/entities=10000,threads=1,width=8",
+        "toggle_entity/entities=10000,threads=1,width=8,bytes=0"
+      ]
+    },
+    {
+      "page": 39,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "toggle_phase/entities=1000,threads=1",
+        "toggle_phase/entities=1000,threads=1,bytes=0",
+        "toggle_phase/entities=1000,threads=1,bytes=256",
+        "toggle_phase/entities=1000,threads=1,bytes=4096",
+        "toggle_phase/entities=1000,threads=1,bytes=64",
+        "toggle_phase/entities=1000,threads=1,width=16",
+        "toggle_phase/entities=1000,threads=1,width=16,bytes=0",
+        "toggle_phase/entities=1000,threads=1,width=2",
+        "toggle_phase/entities=1000,threads=1,width=2,bytes=0",
+        "toggle_phase/entities=1000,threads=1,width=32",
+        "toggle_phase/entities=1000,threads=1,width=32,bytes=0",
+        "toggle_phase/entities=1000,threads=1,width=8"
+      ]
+    },
+    {
+      "page": 40,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "toggle_phase/entities=1000,threads=1,width=8,bytes=0",
+        "toggle_phase/entities=10000,threads=1",
+        "toggle_phase/entities=10000,threads=1,bytes=0",
+        "toggle_phase/entities=10000,threads=1,bytes=256",
+        "toggle_phase/entities=10000,threads=1,bytes=4096",
+        "toggle_phase/entities=10000,threads=1,bytes=64",
+        "toggle_phase/entities=10000,threads=1,width=16",
+        "toggle_phase/entities=10000,threads=1,width=16,bytes=0",
+        "toggle_phase/entities=10000,threads=1,width=2",
+        "toggle_phase/entities=10000,threads=1,width=2,bytes=0",
+        "toggle_phase/entities=10000,threads=1,width=32",
+        "toggle_phase/entities=10000,threads=1,width=32,bytes=0"
+      ]
+    },
+    {
+      "page": 41,
+      "section": "Packed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "toggle_phase/entities=10000,threads=1,width=8",
+        "toggle_phase/entities=10000,threads=1,width=8,bytes=0"
+      ]
+    },
+    {
+      "page": 42,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "add_existing/entities=1000,threads=1",
+        "add_existing/entities=1000,threads=1,bytes=0",
+        "add_existing/entities=1000,threads=1,width=32",
+        "add_existing/entities=1000,threads=1,width=32,bytes=0",
+        "add_existing/entities=1000,threads=1,width=8",
+        "add_existing/entities=1000,threads=1,width=8,bytes=0",
+        "add_existing/entities=100000,threads=1",
+        "add_existing/entities=100000,threads=1,bytes=0",
+        "add_existing/entities=100000,threads=1,width=32",
+        "add_existing/entities=100000,threads=1,width=32,bytes=0",
+        "add_existing/entities=100000,threads=1,width=8",
+        "add_existing/entities=100000,threads=1,width=8,bytes=0"
+      ]
+    },
+    {
+      "page": 43,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "churn/entities=10000,threads=1,width=2,percent=1,shuffled=1",
+        "churn/entities=10000,threads=1,width=2,percent=50,shuffled=1",
+        "churn/entities=10000,threads=1,width=2,shuffled=1",
+        "churn/entities=100000,threads=1,width=2,percent=1,shuffled=1",
+        "churn/entities=100000,threads=1,width=2,percent=50,shuffled=1",
+        "churn/entities=100000,threads=1,width=2,shuffled=1",
+        "create/entities=1000,threads=1",
+        "create/entities=1000,threads=1,reserve=1",
+        "create/entities=1000,threads=1,width=32",
+        "create/entities=1000,threads=1,width=32,reserve=1",
+        "create/entities=1000,threads=1,width=8",
+        "create/entities=1000,threads=1,width=8,reserve=1"
+      ]
+    },
+    {
+      "page": 44,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "create/entities=10000,threads=1,width=8,bytes=64",
+        "create/entities=10000,threads=1,width=8,bytes=64,reserve=1",
+        "create/entities=100000,threads=1",
+        "create/entities=100000,threads=1,reserve=1",
+        "create/entities=100000,threads=1,width=32",
+        "create/entities=100000,threads=1,width=32,reserve=1",
+        "create/entities=100000,threads=1,width=8",
+        "create/entities=100000,threads=1,width=8,reserve=1",
+        "create_incremental/entities=1000,threads=1",
+        "create_incremental/entities=1000,threads=1,reserve=1",
+        "create_incremental/entities=1000,threads=1,width=32",
+        "create_incremental/entities=1000,threads=1,width=32,reserve=1"
+      ]
+    },
+    {
+      "page": 45,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "create_incremental/entities=1000,threads=1,width=8",
+        "create_incremental/entities=1000,threads=1,width=8,reserve=1",
+        "create_incremental/entities=10000,threads=1,width=8,bytes=64",
+        "create_incremental/entities=10000,threads=1,width=8,bytes=64,reserve=1",
+        "create_incremental/entities=100000,threads=1",
+        "create_incremental/entities=100000,threads=1,reserve=1",
+        "create_incremental/entities=100000,threads=1,width=32",
+        "create_incremental/entities=100000,threads=1,width=32,reserve=1",
+        "create_incremental/entities=100000,threads=1,width=8",
+        "create_incremental/entities=100000,threads=1,width=8,reserve=1",
+        "defer_cancel/entities=1000,threads=1",
+        "defer_cancel/entities=1000,threads=1,bytes=0"
+      ]
+    },
+    {
+      "page": 46,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "defer_cancel/entities=1000,threads=1,width=16",
+        "defer_cancel/entities=1000,threads=1,width=16,bytes=0",
+        "defer_cancel/entities=1000,threads=1,width=2",
+        "defer_cancel/entities=1000,threads=1,width=2,bytes=0",
+        "defer_cancel/entities=1000,threads=1,width=32",
+        "defer_cancel/entities=1000,threads=1,width=32,bytes=0",
+        "defer_cancel/entities=1000,threads=1,width=8",
+        "defer_cancel/entities=1000,threads=1,width=8,bytes=0",
+        "defer_cancel/entities=10000,threads=1",
+        "defer_cancel/entities=10000,threads=1,bytes=0",
+        "defer_cancel/entities=10000,threads=1,width=16",
+        "defer_cancel/entities=10000,threads=1,width=16,bytes=0"
+      ]
+    },
+    {
+      "page": 47,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "defer_cancel/entities=10000,threads=1,width=2",
+        "defer_cancel/entities=10000,threads=1,width=2,bytes=0",
+        "defer_cancel/entities=10000,threads=1,width=32",
+        "defer_cancel/entities=10000,threads=1,width=32,bytes=0",
+        "defer_cancel/entities=10000,threads=1,width=8",
+        "defer_cancel/entities=10000,threads=1,width=8,bytes=0",
+        "defer_phase/entities=1000,threads=1",
+        "defer_phase/entities=1000,threads=1,bytes=0",
+        "defer_phase/entities=1000,threads=1,width=16",
+        "defer_phase/entities=1000,threads=1,width=16,bytes=0",
+        "defer_phase/entities=1000,threads=1,width=2",
+        "defer_phase/entities=1000,threads=1,width=2,bytes=0"
+      ]
+    },
+    {
+      "page": 48,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "defer_phase/entities=1000,threads=1,width=32",
+        "defer_phase/entities=1000,threads=1,width=32,bytes=0",
+        "defer_phase/entities=1000,threads=1,width=8",
+        "defer_phase/entities=1000,threads=1,width=8,bytes=0",
+        "defer_phase/entities=10000,threads=1",
+        "defer_phase/entities=10000,threads=1,bytes=0",
+        "defer_phase/entities=10000,threads=1,width=16",
+        "defer_phase/entities=10000,threads=1,width=16,bytes=0",
+        "defer_phase/entities=10000,threads=1,width=2",
+        "defer_phase/entities=10000,threads=1,width=2,bytes=0",
+        "defer_phase/entities=10000,threads=1,width=32",
+        "defer_phase/entities=10000,threads=1,width=32,bytes=0"
+      ]
+    },
+    {
+      "page": 49,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "defer_phase/entities=10000,threads=1,width=8",
+        "defer_phase/entities=10000,threads=1,width=8,bytes=0",
+        "delete/entities=1000,threads=1",
+        "delete/entities=1000,threads=1,bytes=256",
+        "delete/entities=1000,threads=1,bytes=256,shuffled=1",
+        "delete/entities=1000,threads=1,shuffled=1",
+        "delete/entities=1000,threads=1,width=8",
+        "delete/entities=1000,threads=1,width=8,bytes=256",
+        "delete/entities=1000,threads=1,width=8,bytes=256,shuffled=1",
+        "delete/entities=1000,threads=1,width=8,shuffled=1",
+        "delete/entities=10000,threads=1",
+        "delete/entities=10000,threads=1,bytes=256"
+      ]
+    },
+    {
+      "page": 50,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "delete/entities=10000,threads=1,bytes=256,shuffled=1",
+        "delete/entities=10000,threads=1,shuffled=1",
+        "delete/entities=10000,threads=1,width=8",
+        "delete/entities=10000,threads=1,width=8,bytes=256",
+        "delete/entities=10000,threads=1,width=8,bytes=256,shuffled=1",
+        "delete/entities=10000,threads=1,width=8,shuffled=1",
+        "frame/entities=1000,threads=1",
+        "frame/entities=1000,threads=1,grain=16384",
+        "frame/entities=1000,threads=1,grain=64",
+        "frame/entities=1000,threads=1,width=4",
+        "frame/entities=1000,threads=1,width=4,systems=32",
+        "frame/entities=1000,threads=1,width=4,systems=8"
+      ]
+    },
+    {
+      "page": 51,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame/entities=1000,threads=14",
+        "frame/entities=1000,threads=14,grain=16384",
+        "frame/entities=1000,threads=14,grain=64",
+        "frame/entities=1000,threads=2",
+        "frame/entities=1000,threads=2,grain=16384",
+        "frame/entities=1000,threads=2,grain=64",
+        "frame/entities=1000,threads=4",
+        "frame/entities=1000,threads=4,grain=16384",
+        "frame/entities=1000,threads=4,grain=64",
+        "frame/entities=1000,threads=4,width=4",
+        "frame/entities=1000,threads=4,width=4,systems=32",
+        "frame/entities=1000,threads=4,width=4,systems=8"
+      ]
+    },
+    {
+      "page": 52,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame/entities=1000,threads=8",
+        "frame/entities=1000,threads=8,grain=16384",
+        "frame/entities=1000,threads=8,grain=64",
+        "frame/entities=100000,threads=1",
+        "frame/entities=100000,threads=1,bits=10",
+        "frame/entities=100000,threads=1,bits=6",
+        "frame/entities=100000,threads=1,grain=16384",
+        "frame/entities=100000,threads=1,grain=64",
+        "frame/entities=100000,threads=1,width=4",
+        "frame/entities=100000,threads=1,width=4,rounds=32",
+        "frame/entities=100000,threads=1,width=4,systems=32",
+        "frame/entities=100000,threads=1,width=4,systems=8"
+      ]
+    },
+    {
+      "page": 53,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame/entities=100000,threads=14",
+        "frame/entities=100000,threads=14,bits=10",
+        "frame/entities=100000,threads=14,bits=6",
+        "frame/entities=100000,threads=14,grain=16384",
+        "frame/entities=100000,threads=14,grain=64",
+        "frame/entities=100000,threads=14,width=4,rounds=32",
+        "frame/entities=100000,threads=2",
+        "frame/entities=100000,threads=2,grain=16384",
+        "frame/entities=100000,threads=2,grain=64",
+        "frame/entities=100000,threads=2,width=4,rounds=32",
+        "frame/entities=100000,threads=4",
+        "frame/entities=100000,threads=4,bits=10"
+      ]
+    },
+    {
+      "page": 54,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame/entities=100000,threads=4,bits=6",
+        "frame/entities=100000,threads=4,grain=16384",
+        "frame/entities=100000,threads=4,grain=64",
+        "frame/entities=100000,threads=4,width=4",
+        "frame/entities=100000,threads=4,width=4,rounds=32",
+        "frame/entities=100000,threads=4,width=4,systems=32",
+        "frame/entities=100000,threads=4,width=4,systems=8",
+        "frame/entities=100000,threads=8",
+        "frame/entities=100000,threads=8,grain=16384",
+        "frame/entities=100000,threads=8,grain=64",
+        "frame/entities=100000,threads=8,width=4,rounds=32",
+        "frame/entities=1000000,threads=1"
+      ]
+    },
+    {
+      "page": 55,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame/entities=1000000,threads=1,grain=16384",
+        "frame/entities=1000000,threads=1,grain=64",
+        "frame/entities=1000000,threads=1,width=4,rounds=32",
+        "frame/entities=1000000,threads=14",
+        "frame/entities=1000000,threads=14,grain=16384",
+        "frame/entities=1000000,threads=14,grain=64",
+        "frame/entities=1000000,threads=14,width=4,rounds=32",
+        "frame/entities=1000000,threads=2",
+        "frame/entities=1000000,threads=2,grain=16384",
+        "frame/entities=1000000,threads=2,grain=64",
+        "frame/entities=1000000,threads=2,width=4,rounds=32",
+        "frame/entities=1000000,threads=4"
+      ]
+    },
+    {
+      "page": 56,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame/entities=1000000,threads=4,grain=16384",
+        "frame/entities=1000000,threads=4,grain=64",
+        "frame/entities=1000000,threads=4,width=4,rounds=32",
+        "frame/entities=1000000,threads=8",
+        "frame/entities=1000000,threads=8,grain=16384",
+        "frame/entities=1000000,threads=8,grain=64",
+        "frame/entities=1000000,threads=8,width=4,rounds=32",
+        "frame_commands/entities=1000,threads=1",
+        "frame_commands/entities=1000,threads=1,grain=64",
+        "frame_commands/entities=1000,threads=14",
+        "frame_commands/entities=1000,threads=14,grain=64",
+        "frame_commands/entities=1000,threads=4"
+      ]
+    },
+    {
+      "page": 57,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "frame_commands/entities=1000,threads=4,grain=64",
+        "frame_commands/entities=100000,threads=1",
+        "frame_commands/entities=100000,threads=1,grain=64",
+        "frame_commands/entities=100000,threads=14",
+        "frame_commands/entities=100000,threads=14,grain=64",
+        "frame_commands/entities=100000,threads=4",
+        "frame_commands/entities=100000,threads=4,grain=64",
+        "get_empty/entities=1000,threads=1",
+        "get_empty/entities=1000,threads=1,shuffled=1",
+        "get_empty/entities=100000,threads=1",
+        "get_empty/entities=100000,threads=1,shuffled=1",
+        "get_hit/entities=1000,threads=1"
+      ]
+    },
+    {
+      "page": 58,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "get_hit/entities=1000,threads=1,shuffled=1",
+        "get_hit/entities=1000,threads=1,width=32",
+        "get_hit/entities=1000,threads=1,width=32,shuffled=1",
+        "get_hit/entities=1000,threads=1,width=8",
+        "get_hit/entities=1000,threads=1,width=8,shuffled=1",
+        "get_hit/entities=100000,threads=1",
+        "get_hit/entities=100000,threads=1,shuffled=1",
+        "get_hit/entities=100000,threads=1,width=32",
+        "get_hit/entities=100000,threads=1,width=32,shuffled=1",
+        "get_hit/entities=100000,threads=1,width=8",
+        "get_hit/entities=100000,threads=1,width=8,shuffled=1",
+        "get_miss/entities=1000,threads=1"
+      ]
+    },
+    {
+      "page": 59,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "get_miss/entities=1000,threads=1,shuffled=1",
+        "get_miss/entities=1000,threads=1,width=32",
+        "get_miss/entities=1000,threads=1,width=32,shuffled=1",
+        "get_miss/entities=100000,threads=1",
+        "get_miss/entities=100000,threads=1,shuffled=1",
+        "get_miss/entities=100000,threads=1,width=32",
+        "get_miss/entities=100000,threads=1,width=32,shuffled=1",
+        "get_stale/entities=1000,threads=1",
+        "get_stale/entities=1000,threads=1,shuffled=1",
+        "get_stale/entities=100000,threads=1",
+        "get_stale/entities=100000,threads=1,shuffled=1",
+        "has_mixed/entities=1000,threads=1"
+      ]
+    },
+    {
+      "page": 60,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "has_mixed/entities=1000,threads=1,percent=50",
+        "has_mixed/entities=1000,threads=1,percent=50,shuffled=1",
+        "has_mixed/entities=1000,threads=1,percent=90",
+        "has_mixed/entities=1000,threads=1,percent=90,shuffled=1",
+        "has_mixed/entities=1000,threads=1,shuffled=1",
+        "has_mixed/entities=100000,threads=1",
+        "has_mixed/entities=100000,threads=1,percent=50",
+        "has_mixed/entities=100000,threads=1,percent=50,shuffled=1",
+        "has_mixed/entities=100000,threads=1,percent=90",
+        "has_mixed/entities=100000,threads=1,percent=90,shuffled=1",
+        "has_mixed/entities=100000,threads=1,shuffled=1",
+        "pointer_chase/entities=1000,threads=1"
+      ]
+    },
+    {
+      "page": 61,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "pointer_chase/entities=10000,threads=1",
+        "pointer_chase/entities=100000,threads=1",
+        "query_build/entities=1000,threads=1,bits=10,terms=1",
+        "query_build/entities=1000,threads=1,bits=10,terms=4",
+        "query_build/entities=1000,threads=1,bits=6,terms=1",
+        "query_build/entities=1000,threads=1,bits=6,terms=4",
+        "query_build/entities=100000,threads=1,bits=10,terms=1",
+        "query_build/entities=100000,threads=1,bits=10,terms=4",
+        "query_build/entities=100000,threads=1,bits=6,terms=1",
+        "query_build/entities=100000,threads=1,bits=6,terms=4",
+        "query_churn/entities=1000,threads=1",
+        "query_churn/entities=1000,threads=1,bits=6"
+      ]
+    },
+    {
+      "page": 62,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "query_churn/entities=100000,threads=1",
+        "query_churn/entities=100000,threads=1,bits=6",
+        "query_data/entities=1000,threads=1,bits=10,terms=1",
+        "query_data/entities=1000,threads=1,bits=10,terms=4",
+        "query_data/entities=1000,threads=1,bits=10,terms=8",
+        "query_data/entities=1000,threads=1,bits=6,terms=1",
+        "query_data/entities=1000,threads=1,bits=6,terms=4",
+        "query_data/entities=100000,threads=1,bits=10,terms=1",
+        "query_data/entities=100000,threads=1,bits=10,terms=4",
+        "query_data/entities=100000,threads=1,bits=10,terms=8",
+        "query_data/entities=100000,threads=1,bits=6,terms=1",
+        "query_data/entities=100000,threads=1,bits=6,terms=4"
+      ]
+    },
+    {
+      "page": 63,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "query_empty/entities=1000,threads=1,bits=10",
+        "query_empty/entities=1000,threads=1,bits=6",
+        "query_empty/entities=100000,threads=1,bits=10",
+        "query_empty/entities=100000,threads=1,bits=6",
+        "query_not/entities=1000,threads=1,bits=10",
+        "query_not/entities=1000,threads=1,bits=6",
+        "query_not/entities=100000,threads=1,bits=10",
+        "query_not/entities=100000,threads=1,bits=6",
+        "query_optional/entities=1000,threads=1,bits=10",
+        "query_optional/entities=1000,threads=1,bits=6",
+        "query_optional/entities=100000,threads=1,bits=10",
+        "query_optional/entities=100000,threads=1,bits=6"
+      ]
+    },
+    {
+      "page": 64,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "query_plain/entities=1000,threads=1",
+        "query_plain/entities=1000,threads=1,bits=6",
+        "query_plain/entities=1000,threads=1,width=16",
+        "query_plain/entities=1000,threads=1,width=16,bits=6",
+        "query_plain/entities=1000,threads=1,width=4",
+        "query_plain/entities=1000,threads=1,width=4,bits=6",
+        "query_plain/entities=1000,threads=1,width=8",
+        "query_plain/entities=1000,threads=1,width=8,bits=6",
+        "query_plain/entities=100000,threads=1",
+        "query_plain/entities=100000,threads=1,bits=6",
+        "query_plain/entities=100000,threads=1,width=16",
+        "query_plain/entities=100000,threads=1,width=16,bits=6"
+      ]
+    },
+    {
+      "page": 65,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "query_plain/entities=100000,threads=1,width=4",
+        "query_plain/entities=100000,threads=1,width=4,bits=6",
+        "query_plain/entities=100000,threads=1,width=8",
+        "query_plain/entities=100000,threads=1,width=8,bits=6",
+        "query_tags/entities=1000,threads=1,bits=10,terms=1",
+        "query_tags/entities=1000,threads=1,bits=10,terms=4",
+        "query_tags/entities=1000,threads=1,bits=10,terms=8",
+        "query_tags/entities=1000,threads=1,bits=6,terms=1",
+        "query_tags/entities=1000,threads=1,bits=6,terms=4",
+        "query_tags/entities=100000,threads=1,bits=10,terms=1",
+        "query_tags/entities=100000,threads=1,bits=10,terms=4",
+        "query_tags/entities=100000,threads=1,bits=10,terms=8"
+      ]
+    },
+    {
+      "page": 66,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "query_tags/entities=100000,threads=1,bits=6,terms=1",
+        "query_tags/entities=100000,threads=1,bits=6,terms=4",
+        "recycle/entities=1000,threads=1",
+        "recycle/entities=1000,threads=1,bytes=256",
+        "recycle/entities=1000,threads=1,bytes=256,shuffled=1",
+        "recycle/entities=1000,threads=1,shuffled=1",
+        "recycle/entities=1000,threads=1,width=8",
+        "recycle/entities=1000,threads=1,width=8,bytes=256",
+        "recycle/entities=1000,threads=1,width=8,bytes=256,shuffled=1",
+        "recycle/entities=1000,threads=1,width=8,shuffled=1",
+        "recycle/entities=10000,threads=1",
+        "recycle/entities=10000,threads=1,bytes=256"
+      ]
+    },
+    {
+      "page": 67,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "recycle/entities=10000,threads=1,bytes=256,shuffled=1",
+        "recycle/entities=10000,threads=1,shuffled=1",
+        "recycle/entities=10000,threads=1,width=8",
+        "recycle/entities=10000,threads=1,width=8,bytes=256",
+        "recycle/entities=10000,threads=1,width=8,bytes=256,shuffled=1",
+        "recycle/entities=10000,threads=1,width=8,shuffled=1",
+        "remove_absent/entities=1000,threads=1",
+        "remove_absent/entities=1000,threads=1,bytes=0",
+        "remove_absent/entities=1000,threads=1,width=32",
+        "remove_absent/entities=1000,threads=1,width=32,bytes=0",
+        "remove_absent/entities=1000,threads=1,width=8",
+        "remove_absent/entities=1000,threads=1,width=8,bytes=0"
+      ]
+    },
+    {
+      "page": 68,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "remove_absent/entities=100000,threads=1",
+        "remove_absent/entities=100000,threads=1,bytes=0",
+        "remove_absent/entities=100000,threads=1,width=32",
+        "remove_absent/entities=100000,threads=1,width=32,bytes=0",
+        "remove_absent/entities=100000,threads=1,width=8",
+        "remove_absent/entities=100000,threads=1,width=8,bytes=0",
+        "set_payload/entities=1000,threads=1",
+        "set_payload/entities=1000,threads=1,bytes=256",
+        "set_payload/entities=1000,threads=1,bytes=256,shuffled=1",
+        "set_payload/entities=1000,threads=1,bytes=4096",
+        "set_payload/entities=1000,threads=1,bytes=4096,shuffled=1",
+        "set_payload/entities=1000,threads=1,bytes=64"
+      ]
+    },
+    {
+      "page": 69,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "set_payload/entities=1000,threads=1,bytes=64,shuffled=1",
+        "set_payload/entities=1000,threads=1,shuffled=1",
+        "set_payload/entities=10000,threads=1",
+        "set_payload/entities=10000,threads=1,bytes=256",
+        "set_payload/entities=10000,threads=1,bytes=256,shuffled=1",
+        "set_payload/entities=10000,threads=1,bytes=4096",
+        "set_payload/entities=10000,threads=1,bytes=4096,shuffled=1",
+        "set_payload/entities=10000,threads=1,bytes=64",
+        "set_payload/entities=10000,threads=1,bytes=64,shuffled=1",
+        "set_payload/entities=10000,threads=1,shuffled=1",
+        "set_payload/entities=100000,threads=1",
+        "set_payload/entities=100000,threads=1,bytes=256"
+      ]
+    },
+    {
+      "page": 70,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "set_payload/entities=100000,threads=1,bytes=256,shuffled=1",
+        "set_payload/entities=100000,threads=1,bytes=64",
+        "set_payload/entities=100000,threads=1,bytes=64,shuffled=1",
+        "set_payload/entities=100000,threads=1,shuffled=1",
+        "toggle_entity/entities=1000,threads=1",
+        "toggle_entity/entities=1000,threads=1,bytes=0",
+        "toggle_entity/entities=1000,threads=1,width=16",
+        "toggle_entity/entities=1000,threads=1,width=16,bytes=0",
+        "toggle_entity/entities=1000,threads=1,width=2",
+        "toggle_entity/entities=1000,threads=1,width=2,bytes=0",
+        "toggle_entity/entities=1000,threads=1,width=32",
+        "toggle_entity/entities=1000,threads=1,width=32,bytes=0"
+      ]
+    },
+    {
+      "page": 71,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "toggle_entity/entities=1000,threads=1,width=8",
+        "toggle_entity/entities=1000,threads=1,width=8,bytes=0",
+        "toggle_entity/entities=10000,threads=1",
+        "toggle_entity/entities=10000,threads=1,bytes=0",
+        "toggle_entity/entities=10000,threads=1,width=16",
+        "toggle_entity/entities=10000,threads=1,width=16,bytes=0",
+        "toggle_entity/entities=10000,threads=1,width=2",
+        "toggle_entity/entities=10000,threads=1,width=2,bytes=0",
+        "toggle_entity/entities=10000,threads=1,width=32",
+        "toggle_entity/entities=10000,threads=1,width=32,bytes=0",
+        "toggle_entity/entities=10000,threads=1,width=8",
+        "toggle_entity/entities=10000,threads=1,width=8,bytes=0"
+      ]
+    },
+    {
+      "page": 72,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "toggle_phase/entities=1000,threads=1",
+        "toggle_phase/entities=1000,threads=1,bytes=0",
+        "toggle_phase/entities=1000,threads=1,bytes=256",
+        "toggle_phase/entities=1000,threads=1,bytes=4096",
+        "toggle_phase/entities=1000,threads=1,bytes=64",
+        "toggle_phase/entities=1000,threads=1,width=16",
+        "toggle_phase/entities=1000,threads=1,width=16,bytes=0",
+        "toggle_phase/entities=1000,threads=1,width=2",
+        "toggle_phase/entities=1000,threads=1,width=2,bytes=0",
+        "toggle_phase/entities=1000,threads=1,width=32",
+        "toggle_phase/entities=1000,threads=1,width=32,bytes=0",
+        "toggle_phase/entities=1000,threads=1,width=8"
+      ]
+    },
+    {
+      "page": 73,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "toggle_phase/entities=1000,threads=1,width=8,bytes=0",
+        "toggle_phase/entities=10000,threads=1",
+        "toggle_phase/entities=10000,threads=1,bytes=0",
+        "toggle_phase/entities=10000,threads=1,bytes=256",
+        "toggle_phase/entities=10000,threads=1,bytes=4096",
+        "toggle_phase/entities=10000,threads=1,bytes=64",
+        "toggle_phase/entities=10000,threads=1,width=16",
+        "toggle_phase/entities=10000,threads=1,width=16,bytes=0",
+        "toggle_phase/entities=10000,threads=1,width=2",
+        "toggle_phase/entities=10000,threads=1,width=2,bytes=0",
+        "toggle_phase/entities=10000,threads=1,width=32",
+        "toggle_phase/entities=10000,threads=1,width=32,bytes=0"
+      ]
+    },
+    {
+      "page": 74,
+      "section": "Indexed \u00b7 Cedar vs Flecs",
+      "cases": [
+        "toggle_phase/entities=10000,threads=1,width=8",
+        "toggle_phase/entities=10000,threads=1,width=8,bytes=0"
+      ]
+    },
+    {
+      "page": 75,
+      "section": "Concurrent registry",
+      "cases": [
+        "1/1/0",
+        "1/1/1",
+        "1/2/0",
+        "1/2/1",
+        "1/8/0",
+        "1/8/1",
+        "2/1/0",
+        "2/1/1",
+        "2/2/0",
+        "2/2/1",
+        "2/8/0",
+        "2/8/1"
+      ]
+    },
+    {
+      "page": 76,
+      "section": "Concurrent registry",
+      "cases": [
+        "4/1/0",
+        "4/1/1",
+        "4/2/0",
+        "4/2/1",
+        "4/8/0",
+        "4/8/1",
+        "8/1/0",
+        "8/1/1",
+        "8/2/0",
+        "8/2/1",
+        "8/8/0",
+        "8/8/1"
+      ]
+    },
+    {
+      "page": 77,
+      "section": "Memory comparison",
+      "cases": [
+        "clear/1024/0/baseline/accounted_storage_delta",
+        "clear/1024/0/baseline/footprint_delta",
+        "clear/1024/1/registered/accounted_storage_delta",
+        "clear/1024/1/registered/footprint_delta",
+        "clear/1024/2/populated/accounted_storage_delta",
+        "clear/1024/2/populated/footprint_delta",
+        "clear/1024/3/deleted/accounted_storage_delta",
+        "clear/1024/3/deleted/footprint_delta",
+        "clear/1024/4/destroyed/accounted_storage_delta",
+        "clear/1024/4/destroyed/footprint_delta",
+        "clear/65536/0/baseline/accounted_storage_delta",
+        "clear/65536/0/baseline/footprint_delta"
+      ]
+    },
+    {
+      "page": 78,
+      "section": "Memory comparison",
+      "cases": [
+        "clear/65536/1/registered/accounted_storage_delta",
+        "clear/65536/1/registered/footprint_delta",
+        "clear/65536/2/populated/accounted_storage_delta",
+        "clear/65536/2/populated/footprint_delta",
+        "clear/65536/3/deleted/accounted_storage_delta",
+        "clear/65536/3/deleted/footprint_delta",
+        "clear/65536/4/destroyed/accounted_storage_delta",
+        "clear/65536/4/destroyed/footprint_delta",
+        "clear/262144/0/baseline/accounted_storage_delta",
+        "clear/262144/0/baseline/footprint_delta",
+        "clear/262144/1/registered/accounted_storage_delta",
+        "clear/262144/1/registered/footprint_delta"
+      ]
+    },
+    {
+      "page": 79,
+      "section": "Memory comparison",
+      "cases": [
+        "clear/262144/2/populated/accounted_storage_delta",
+        "clear/262144/2/populated/footprint_delta",
+        "clear/262144/3/deleted/accounted_storage_delta",
+        "clear/262144/3/deleted/footprint_delta",
+        "clear/262144/4/destroyed/accounted_storage_delta",
+        "clear/262144/4/destroyed/footprint_delta",
+        "component_cycle/1024/0/baseline/accounted_storage_delta",
+        "component_cycle/1024/0/baseline/footprint_delta",
+        "component_cycle/1024/1/registered/accounted_storage_delta",
+        "component_cycle/1024/1/registered/footprint_delta",
+        "component_cycle/1024/2/populated/accounted_storage_delta",
+        "component_cycle/1024/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 80,
+      "section": "Memory comparison",
+      "cases": [
+        "component_cycle/1024/3/removed/accounted_storage_delta",
+        "component_cycle/1024/3/removed/footprint_delta",
+        "component_cycle/1024/4/readded/accounted_storage_delta",
+        "component_cycle/1024/4/readded/footprint_delta",
+        "component_cycle/1024/5/removed/accounted_storage_delta",
+        "component_cycle/1024/5/removed/footprint_delta",
+        "component_cycle/1024/6/readded/accounted_storage_delta",
+        "component_cycle/1024/6/readded/footprint_delta",
+        "component_cycle/1024/7/removed/accounted_storage_delta",
+        "component_cycle/1024/7/removed/footprint_delta",
+        "component_cycle/1024/8/readded/accounted_storage_delta",
+        "component_cycle/1024/8/readded/footprint_delta"
+      ]
+    },
+    {
+      "page": 81,
+      "section": "Memory comparison",
+      "cases": [
+        "component_cycle/1024/9/removed/accounted_storage_delta",
+        "component_cycle/1024/9/removed/footprint_delta",
+        "component_cycle/1024/10/readded/accounted_storage_delta",
+        "component_cycle/1024/10/readded/footprint_delta",
+        "component_cycle/1024/11/destroyed/accounted_storage_delta",
+        "component_cycle/1024/11/destroyed/footprint_delta",
+        "component_cycle/65536/0/baseline/accounted_storage_delta",
+        "component_cycle/65536/0/baseline/footprint_delta",
+        "component_cycle/65536/1/registered/accounted_storage_delta",
+        "component_cycle/65536/1/registered/footprint_delta",
+        "component_cycle/65536/2/populated/accounted_storage_delta",
+        "component_cycle/65536/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 82,
+      "section": "Memory comparison",
+      "cases": [
+        "component_cycle/65536/3/removed/accounted_storage_delta",
+        "component_cycle/65536/3/removed/footprint_delta",
+        "component_cycle/65536/4/readded/accounted_storage_delta",
+        "component_cycle/65536/4/readded/footprint_delta",
+        "component_cycle/65536/5/removed/accounted_storage_delta",
+        "component_cycle/65536/5/removed/footprint_delta",
+        "component_cycle/65536/6/readded/accounted_storage_delta",
+        "component_cycle/65536/6/readded/footprint_delta",
+        "component_cycle/65536/7/removed/accounted_storage_delta",
+        "component_cycle/65536/7/removed/footprint_delta",
+        "component_cycle/65536/8/readded/accounted_storage_delta",
+        "component_cycle/65536/8/readded/footprint_delta"
+      ]
+    },
+    {
+      "page": 83,
+      "section": "Memory comparison",
+      "cases": [
+        "component_cycle/65536/9/removed/accounted_storage_delta",
+        "component_cycle/65536/9/removed/footprint_delta",
+        "component_cycle/65536/10/readded/accounted_storage_delta",
+        "component_cycle/65536/10/readded/footprint_delta",
+        "component_cycle/65536/11/destroyed/accounted_storage_delta",
+        "component_cycle/65536/11/destroyed/footprint_delta",
+        "component_cycle/262144/0/baseline/accounted_storage_delta",
+        "component_cycle/262144/0/baseline/footprint_delta",
+        "component_cycle/262144/1/registered/accounted_storage_delta",
+        "component_cycle/262144/1/registered/footprint_delta",
+        "component_cycle/262144/2/populated/accounted_storage_delta",
+        "component_cycle/262144/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 84,
+      "section": "Memory comparison",
+      "cases": [
+        "component_cycle/262144/3/removed/accounted_storage_delta",
+        "component_cycle/262144/3/removed/footprint_delta",
+        "component_cycle/262144/4/readded/accounted_storage_delta",
+        "component_cycle/262144/4/readded/footprint_delta",
+        "component_cycle/262144/5/removed/accounted_storage_delta",
+        "component_cycle/262144/5/removed/footprint_delta",
+        "component_cycle/262144/6/readded/accounted_storage_delta",
+        "component_cycle/262144/6/readded/footprint_delta",
+        "component_cycle/262144/7/removed/accounted_storage_delta",
+        "component_cycle/262144/7/removed/footprint_delta",
+        "component_cycle/262144/8/readded/accounted_storage_delta",
+        "component_cycle/262144/8/readded/footprint_delta"
+      ]
+    },
+    {
+      "page": 85,
+      "section": "Memory comparison",
+      "cases": [
+        "component_cycle/262144/9/removed/accounted_storage_delta",
+        "component_cycle/262144/9/removed/footprint_delta",
+        "component_cycle/262144/10/readded/accounted_storage_delta",
+        "component_cycle/262144/10/readded/footprint_delta",
+        "component_cycle/262144/11/destroyed/accounted_storage_delta",
+        "component_cycle/262144/11/destroyed/footprint_delta",
+        "delete_95/1024/0/baseline/accounted_storage_delta",
+        "delete_95/1024/0/baseline/footprint_delta",
+        "delete_95/1024/1/registered/accounted_storage_delta",
+        "delete_95/1024/1/registered/footprint_delta",
+        "delete_95/1024/2/populated/accounted_storage_delta",
+        "delete_95/1024/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 86,
+      "section": "Memory comparison",
+      "cases": [
+        "delete_95/1024/3/deleted/accounted_storage_delta",
+        "delete_95/1024/3/deleted/footprint_delta",
+        "delete_95/1024/4/destroyed/accounted_storage_delta",
+        "delete_95/1024/4/destroyed/footprint_delta",
+        "delete_95/65536/0/baseline/accounted_storage_delta",
+        "delete_95/65536/0/baseline/footprint_delta",
+        "delete_95/65536/1/registered/accounted_storage_delta",
+        "delete_95/65536/1/registered/footprint_delta",
+        "delete_95/65536/2/populated/accounted_storage_delta",
+        "delete_95/65536/2/populated/footprint_delta",
+        "delete_95/65536/3/deleted/accounted_storage_delta",
+        "delete_95/65536/3/deleted/footprint_delta"
+      ]
+    },
+    {
+      "page": 87,
+      "section": "Memory comparison",
+      "cases": [
+        "delete_95/65536/4/destroyed/accounted_storage_delta",
+        "delete_95/65536/4/destroyed/footprint_delta",
+        "delete_95/262144/0/baseline/accounted_storage_delta",
+        "delete_95/262144/0/baseline/footprint_delta",
+        "delete_95/262144/1/registered/accounted_storage_delta",
+        "delete_95/262144/1/registered/footprint_delta",
+        "delete_95/262144/2/populated/accounted_storage_delta",
+        "delete_95/262144/2/populated/footprint_delta",
+        "delete_95/262144/3/deleted/accounted_storage_delta",
+        "delete_95/262144/3/deleted/footprint_delta",
+        "delete_95/262144/4/destroyed/accounted_storage_delta",
+        "delete_95/262144/4/destroyed/footprint_delta"
+      ]
+    },
+    {
+      "page": 88,
+      "section": "Memory comparison",
+      "cases": [
+        "delete_99/1024/0/baseline/accounted_storage_delta",
+        "delete_99/1024/0/baseline/footprint_delta",
+        "delete_99/1024/1/registered/accounted_storage_delta",
+        "delete_99/1024/1/registered/footprint_delta",
+        "delete_99/1024/2/populated/accounted_storage_delta",
+        "delete_99/1024/2/populated/footprint_delta",
+        "delete_99/1024/3/deleted/accounted_storage_delta",
+        "delete_99/1024/3/deleted/footprint_delta",
+        "delete_99/1024/4/destroyed/accounted_storage_delta",
+        "delete_99/1024/4/destroyed/footprint_delta",
+        "delete_99/65536/0/baseline/accounted_storage_delta",
+        "delete_99/65536/0/baseline/footprint_delta"
+      ]
+    },
+    {
+      "page": 89,
+      "section": "Memory comparison",
+      "cases": [
+        "delete_99/65536/1/registered/accounted_storage_delta",
+        "delete_99/65536/1/registered/footprint_delta",
+        "delete_99/65536/2/populated/accounted_storage_delta",
+        "delete_99/65536/2/populated/footprint_delta",
+        "delete_99/65536/3/deleted/accounted_storage_delta",
+        "delete_99/65536/3/deleted/footprint_delta",
+        "delete_99/65536/4/destroyed/accounted_storage_delta",
+        "delete_99/65536/4/destroyed/footprint_delta",
+        "delete_99/262144/0/baseline/accounted_storage_delta",
+        "delete_99/262144/0/baseline/footprint_delta",
+        "delete_99/262144/1/registered/accounted_storage_delta",
+        "delete_99/262144/1/registered/footprint_delta"
+      ]
+    },
+    {
+      "page": 90,
+      "section": "Memory comparison",
+      "cases": [
+        "delete_99/262144/2/populated/accounted_storage_delta",
+        "delete_99/262144/2/populated/footprint_delta",
+        "delete_99/262144/3/deleted/accounted_storage_delta",
+        "delete_99/262144/3/deleted/footprint_delta",
+        "delete_99/262144/4/destroyed/accounted_storage_delta",
+        "delete_99/262144/4/destroyed/footprint_delta",
+        "delete_half/1024/0/baseline/accounted_storage_delta",
+        "delete_half/1024/0/baseline/footprint_delta",
+        "delete_half/1024/1/registered/accounted_storage_delta",
+        "delete_half/1024/1/registered/footprint_delta",
+        "delete_half/1024/2/populated/accounted_storage_delta",
+        "delete_half/1024/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 91,
+      "section": "Memory comparison",
+      "cases": [
+        "delete_half/1024/3/deleted/accounted_storage_delta",
+        "delete_half/1024/3/deleted/footprint_delta",
+        "delete_half/1024/4/destroyed/accounted_storage_delta",
+        "delete_half/1024/4/destroyed/footprint_delta",
+        "delete_half/65536/0/baseline/accounted_storage_delta",
+        "delete_half/65536/0/baseline/footprint_delta",
+        "delete_half/65536/1/registered/accounted_storage_delta",
+        "delete_half/65536/1/registered/footprint_delta",
+        "delete_half/65536/2/populated/accounted_storage_delta",
+        "delete_half/65536/2/populated/footprint_delta",
+        "delete_half/65536/3/deleted/accounted_storage_delta",
+        "delete_half/65536/3/deleted/footprint_delta"
+      ]
+    },
+    {
+      "page": 92,
+      "section": "Memory comparison",
+      "cases": [
+        "delete_half/65536/4/destroyed/accounted_storage_delta",
+        "delete_half/65536/4/destroyed/footprint_delta",
+        "delete_half/262144/0/baseline/accounted_storage_delta",
+        "delete_half/262144/0/baseline/footprint_delta",
+        "delete_half/262144/1/registered/accounted_storage_delta",
+        "delete_half/262144/1/registered/footprint_delta",
+        "delete_half/262144/2/populated/accounted_storage_delta",
+        "delete_half/262144/2/populated/footprint_delta",
+        "delete_half/262144/3/deleted/accounted_storage_delta",
+        "delete_half/262144/3/deleted/footprint_delta",
+        "delete_half/262144/4/destroyed/accounted_storage_delta",
+        "delete_half/262144/4/destroyed/footprint_delta"
+      ]
+    },
+    {
+      "page": 93,
+      "section": "Memory comparison",
+      "cases": [
+        "dense_payload/1024/0/baseline/accounted_storage_delta",
+        "dense_payload/1024/0/baseline/footprint_delta",
+        "dense_payload/1024/1/registered/accounted_storage_delta",
+        "dense_payload/1024/1/registered/footprint_delta",
+        "dense_payload/1024/2/populated/accounted_storage_delta",
+        "dense_payload/1024/2/populated/footprint_delta",
+        "dense_payload/1024/3/destroyed/accounted_storage_delta",
+        "dense_payload/1024/3/destroyed/footprint_delta",
+        "dense_payload/65536/0/baseline/accounted_storage_delta",
+        "dense_payload/65536/0/baseline/footprint_delta",
+        "dense_payload/65536/1/registered/accounted_storage_delta",
+        "dense_payload/65536/1/registered/footprint_delta"
+      ]
+    },
+    {
+      "page": 94,
+      "section": "Memory comparison",
+      "cases": [
+        "dense_payload/65536/2/populated/accounted_storage_delta",
+        "dense_payload/65536/2/populated/footprint_delta",
+        "dense_payload/65536/3/destroyed/accounted_storage_delta",
+        "dense_payload/65536/3/destroyed/footprint_delta",
+        "dense_payload/262144/0/baseline/accounted_storage_delta",
+        "dense_payload/262144/0/baseline/footprint_delta",
+        "dense_payload/262144/1/registered/accounted_storage_delta",
+        "dense_payload/262144/1/registered/footprint_delta",
+        "dense_payload/262144/2/populated/accounted_storage_delta",
+        "dense_payload/262144/2/populated/footprint_delta",
+        "dense_payload/262144/3/destroyed/accounted_storage_delta",
+        "dense_payload/262144/3/destroyed/footprint_delta"
+      ]
+    },
+    {
+      "page": 95,
+      "section": "Memory comparison",
+      "cases": [
+        "empty/1024/0/baseline/accounted_storage_delta",
+        "empty/1024/0/baseline/footprint_delta",
+        "empty/1024/1/registered/accounted_storage_delta",
+        "empty/1024/1/registered/footprint_delta",
+        "empty/1024/2/populated/accounted_storage_delta",
+        "empty/1024/2/populated/footprint_delta",
+        "empty/1024/3/destroyed/accounted_storage_delta",
+        "empty/1024/3/destroyed/footprint_delta",
+        "empty/65536/0/baseline/accounted_storage_delta",
+        "empty/65536/0/baseline/footprint_delta",
+        "empty/65536/1/registered/accounted_storage_delta",
+        "empty/65536/1/registered/footprint_delta"
+      ]
+    },
+    {
+      "page": 96,
+      "section": "Memory comparison",
+      "cases": [
+        "empty/65536/2/populated/accounted_storage_delta",
+        "empty/65536/2/populated/footprint_delta",
+        "empty/65536/3/destroyed/accounted_storage_delta",
+        "empty/65536/3/destroyed/footprint_delta",
+        "empty/262144/0/baseline/accounted_storage_delta",
+        "empty/262144/0/baseline/footprint_delta",
+        "empty/262144/1/registered/accounted_storage_delta",
+        "empty/262144/1/registered/footprint_delta",
+        "empty/262144/2/populated/accounted_storage_delta",
+        "empty/262144/2/populated/footprint_delta",
+        "empty/262144/3/destroyed/accounted_storage_delta",
+        "empty/262144/3/destroyed/footprint_delta"
+      ]
+    },
+    {
+      "page": 97,
+      "section": "Memory comparison",
+      "cases": [
+        "empty_refill/1024/0/baseline/accounted_storage_delta",
+        "empty_refill/1024/0/baseline/footprint_delta",
+        "empty_refill/1024/1/registered/accounted_storage_delta",
+        "empty_refill/1024/1/registered/footprint_delta",
+        "empty_refill/1024/2/populated/accounted_storage_delta",
+        "empty_refill/1024/2/populated/footprint_delta",
+        "empty_refill/1024/3/deleted/accounted_storage_delta",
+        "empty_refill/1024/3/deleted/footprint_delta",
+        "empty_refill/1024/4/regrown/accounted_storage_delta",
+        "empty_refill/1024/4/regrown/footprint_delta",
+        "empty_refill/1024/5/deleted/accounted_storage_delta",
+        "empty_refill/1024/5/deleted/footprint_delta"
+      ]
+    },
+    {
+      "page": 98,
+      "section": "Memory comparison",
+      "cases": [
+        "empty_refill/1024/6/regrown/accounted_storage_delta",
+        "empty_refill/1024/6/regrown/footprint_delta",
+        "empty_refill/1024/7/deleted/accounted_storage_delta",
+        "empty_refill/1024/7/deleted/footprint_delta",
+        "empty_refill/1024/8/regrown/accounted_storage_delta",
+        "empty_refill/1024/8/regrown/footprint_delta",
+        "empty_refill/1024/9/deleted/accounted_storage_delta",
+        "empty_refill/1024/9/deleted/footprint_delta",
+        "empty_refill/1024/10/regrown/accounted_storage_delta",
+        "empty_refill/1024/10/regrown/footprint_delta",
+        "empty_refill/1024/11/destroyed/accounted_storage_delta",
+        "empty_refill/1024/11/destroyed/footprint_delta"
+      ]
+    },
+    {
+      "page": 99,
+      "section": "Memory comparison",
+      "cases": [
+        "empty_refill/65536/0/baseline/accounted_storage_delta",
+        "empty_refill/65536/0/baseline/footprint_delta",
+        "empty_refill/65536/1/registered/accounted_storage_delta",
+        "empty_refill/65536/1/registered/footprint_delta",
+        "empty_refill/65536/2/populated/accounted_storage_delta",
+        "empty_refill/65536/2/populated/footprint_delta",
+        "empty_refill/65536/3/deleted/accounted_storage_delta",
+        "empty_refill/65536/3/deleted/footprint_delta",
+        "empty_refill/65536/4/regrown/accounted_storage_delta",
+        "empty_refill/65536/4/regrown/footprint_delta",
+        "empty_refill/65536/5/deleted/accounted_storage_delta",
+        "empty_refill/65536/5/deleted/footprint_delta"
+      ]
+    },
+    {
+      "page": 100,
+      "section": "Memory comparison",
+      "cases": [
+        "empty_refill/65536/6/regrown/accounted_storage_delta",
+        "empty_refill/65536/6/regrown/footprint_delta",
+        "empty_refill/65536/7/deleted/accounted_storage_delta",
+        "empty_refill/65536/7/deleted/footprint_delta",
+        "empty_refill/65536/8/regrown/accounted_storage_delta",
+        "empty_refill/65536/8/regrown/footprint_delta",
+        "empty_refill/65536/9/deleted/accounted_storage_delta",
+        "empty_refill/65536/9/deleted/footprint_delta",
+        "empty_refill/65536/10/regrown/accounted_storage_delta",
+        "empty_refill/65536/10/regrown/footprint_delta",
+        "empty_refill/65536/11/destroyed/accounted_storage_delta",
+        "empty_refill/65536/11/destroyed/footprint_delta"
+      ]
+    },
+    {
+      "page": 101,
+      "section": "Memory comparison",
+      "cases": [
+        "empty_refill/262144/0/baseline/accounted_storage_delta",
+        "empty_refill/262144/0/baseline/footprint_delta",
+        "empty_refill/262144/1/registered/accounted_storage_delta",
+        "empty_refill/262144/1/registered/footprint_delta",
+        "empty_refill/262144/2/populated/accounted_storage_delta",
+        "empty_refill/262144/2/populated/footprint_delta",
+        "empty_refill/262144/3/deleted/accounted_storage_delta",
+        "empty_refill/262144/3/deleted/footprint_delta",
+        "empty_refill/262144/4/regrown/accounted_storage_delta",
+        "empty_refill/262144/4/regrown/footprint_delta",
+        "empty_refill/262144/5/deleted/accounted_storage_delta",
+        "empty_refill/262144/5/deleted/footprint_delta"
+      ]
+    },
+    {
+      "page": 102,
+      "section": "Memory comparison",
+      "cases": [
+        "empty_refill/262144/6/regrown/accounted_storage_delta",
+        "empty_refill/262144/6/regrown/footprint_delta",
+        "empty_refill/262144/7/deleted/accounted_storage_delta",
+        "empty_refill/262144/7/deleted/footprint_delta",
+        "empty_refill/262144/8/regrown/accounted_storage_delta",
+        "empty_refill/262144/8/regrown/footprint_delta",
+        "empty_refill/262144/9/deleted/accounted_storage_delta",
+        "empty_refill/262144/9/deleted/footprint_delta",
+        "empty_refill/262144/10/regrown/accounted_storage_delta",
+        "empty_refill/262144/10/regrown/footprint_delta",
+        "empty_refill/262144/11/destroyed/accounted_storage_delta",
+        "empty_refill/262144/11/destroyed/footprint_delta"
+      ]
+    },
+    {
+      "page": 103,
+      "section": "Memory comparison",
+      "cases": [
+        "fragmented/1024/0/baseline/accounted_storage_delta",
+        "fragmented/1024/0/baseline/footprint_delta",
+        "fragmented/1024/1/registered/accounted_storage_delta",
+        "fragmented/1024/1/registered/footprint_delta",
+        "fragmented/1024/2/populated/accounted_storage_delta",
+        "fragmented/1024/2/populated/footprint_delta",
+        "fragmented/1024/3/destroyed/accounted_storage_delta",
+        "fragmented/1024/3/destroyed/footprint_delta",
+        "fragmented/65536/0/baseline/accounted_storage_delta",
+        "fragmented/65536/0/baseline/footprint_delta",
+        "fragmented/65536/1/registered/accounted_storage_delta",
+        "fragmented/65536/1/registered/footprint_delta"
+      ]
+    },
+    {
+      "page": 104,
+      "section": "Memory comparison",
+      "cases": [
+        "fragmented/65536/2/populated/accounted_storage_delta",
+        "fragmented/65536/2/populated/footprint_delta",
+        "fragmented/65536/3/destroyed/accounted_storage_delta",
+        "fragmented/65536/3/destroyed/footprint_delta",
+        "fragmented/262144/0/baseline/accounted_storage_delta",
+        "fragmented/262144/0/baseline/footprint_delta",
+        "fragmented/262144/1/registered/accounted_storage_delta",
+        "fragmented/262144/1/registered/footprint_delta",
+        "fragmented/262144/2/populated/accounted_storage_delta",
+        "fragmented/262144/2/populated/footprint_delta",
+        "fragmented/262144/3/destroyed/accounted_storage_delta",
+        "fragmented/262144/3/destroyed/footprint_delta"
+      ]
+    },
+    {
+      "page": 105,
+      "section": "Memory comparison",
+      "cases": [
+        "growth_steps/1024/0/baseline/accounted_storage_delta",
+        "growth_steps/1024/0/baseline/footprint_delta",
+        "growth_steps/1024/1/registered/accounted_storage_delta",
+        "growth_steps/1024/1/registered/footprint_delta",
+        "growth_steps/1024/2/grown_25/accounted_storage_delta",
+        "growth_steps/1024/2/grown_25/footprint_delta",
+        "growth_steps/1024/3/grown_50/accounted_storage_delta",
+        "growth_steps/1024/3/grown_50/footprint_delta",
+        "growth_steps/1024/4/grown_75/accounted_storage_delta",
+        "growth_steps/1024/4/grown_75/footprint_delta",
+        "growth_steps/1024/5/populated/accounted_storage_delta",
+        "growth_steps/1024/5/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 106,
+      "section": "Memory comparison",
+      "cases": [
+        "growth_steps/1024/6/destroyed/accounted_storage_delta",
+        "growth_steps/1024/6/destroyed/footprint_delta",
+        "growth_steps/65536/0/baseline/accounted_storage_delta",
+        "growth_steps/65536/0/baseline/footprint_delta",
+        "growth_steps/65536/1/registered/accounted_storage_delta",
+        "growth_steps/65536/1/registered/footprint_delta",
+        "growth_steps/65536/2/grown_25/accounted_storage_delta",
+        "growth_steps/65536/2/grown_25/footprint_delta",
+        "growth_steps/65536/3/grown_50/accounted_storage_delta",
+        "growth_steps/65536/3/grown_50/footprint_delta",
+        "growth_steps/65536/4/grown_75/accounted_storage_delta",
+        "growth_steps/65536/4/grown_75/footprint_delta"
+      ]
+    },
+    {
+      "page": 107,
+      "section": "Memory comparison",
+      "cases": [
+        "growth_steps/65536/5/populated/accounted_storage_delta",
+        "growth_steps/65536/5/populated/footprint_delta",
+        "growth_steps/65536/6/destroyed/accounted_storage_delta",
+        "growth_steps/65536/6/destroyed/footprint_delta",
+        "growth_steps/262144/0/baseline/accounted_storage_delta",
+        "growth_steps/262144/0/baseline/footprint_delta",
+        "growth_steps/262144/1/registered/accounted_storage_delta",
+        "growth_steps/262144/1/registered/footprint_delta",
+        "growth_steps/262144/2/grown_25/accounted_storage_delta",
+        "growth_steps/262144/2/grown_25/footprint_delta",
+        "growth_steps/262144/3/grown_50/accounted_storage_delta",
+        "growth_steps/262144/3/grown_50/footprint_delta"
+      ]
+    },
+    {
+      "page": 108,
+      "section": "Memory comparison",
+      "cases": [
+        "growth_steps/262144/4/grown_75/accounted_storage_delta",
+        "growth_steps/262144/4/grown_75/footprint_delta",
+        "growth_steps/262144/5/populated/accounted_storage_delta",
+        "growth_steps/262144/5/populated/footprint_delta",
+        "growth_steps/262144/6/destroyed/accounted_storage_delta",
+        "growth_steps/262144/6/destroyed/footprint_delta",
+        "payload_high_slots/1024/0/baseline/accounted_storage_delta",
+        "payload_high_slots/1024/0/baseline/footprint_delta",
+        "payload_high_slots/1024/1/registered/accounted_storage_delta",
+        "payload_high_slots/1024/1/registered/footprint_delta",
+        "payload_high_slots/1024/2/populated/accounted_storage_delta",
+        "payload_high_slots/1024/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 109,
+      "section": "Memory comparison",
+      "cases": [
+        "payload_high_slots/1024/3/destroyed/accounted_storage_delta",
+        "payload_high_slots/1024/3/destroyed/footprint_delta",
+        "payload_high_slots/65536/0/baseline/accounted_storage_delta",
+        "payload_high_slots/65536/0/baseline/footprint_delta",
+        "payload_high_slots/65536/1/registered/accounted_storage_delta",
+        "payload_high_slots/65536/1/registered/footprint_delta",
+        "payload_high_slots/65536/2/populated/accounted_storage_delta",
+        "payload_high_slots/65536/2/populated/footprint_delta",
+        "payload_high_slots/65536/3/destroyed/accounted_storage_delta",
+        "payload_high_slots/65536/3/destroyed/footprint_delta",
+        "payload_high_slots/262144/0/baseline/accounted_storage_delta",
+        "payload_high_slots/262144/0/baseline/footprint_delta"
+      ]
+    },
+    {
+      "page": 110,
+      "section": "Memory comparison",
+      "cases": [
+        "payload_high_slots/262144/1/registered/accounted_storage_delta",
+        "payload_high_slots/262144/1/registered/footprint_delta",
+        "payload_high_slots/262144/2/populated/accounted_storage_delta",
+        "payload_high_slots/262144/2/populated/footprint_delta",
+        "payload_high_slots/262144/3/destroyed/accounted_storage_delta",
+        "payload_high_slots/262144/3/destroyed/footprint_delta",
+        "payload_low_slots/1024/0/baseline/accounted_storage_delta",
+        "payload_low_slots/1024/0/baseline/footprint_delta",
+        "payload_low_slots/1024/1/registered/accounted_storage_delta",
+        "payload_low_slots/1024/1/registered/footprint_delta",
+        "payload_low_slots/1024/2/populated/accounted_storage_delta",
+        "payload_low_slots/1024/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 111,
+      "section": "Memory comparison",
+      "cases": [
+        "payload_low_slots/1024/3/destroyed/accounted_storage_delta",
+        "payload_low_slots/1024/3/destroyed/footprint_delta",
+        "payload_low_slots/65536/0/baseline/accounted_storage_delta",
+        "payload_low_slots/65536/0/baseline/footprint_delta",
+        "payload_low_slots/65536/1/registered/accounted_storage_delta",
+        "payload_low_slots/65536/1/registered/footprint_delta",
+        "payload_low_slots/65536/2/populated/accounted_storage_delta",
+        "payload_low_slots/65536/2/populated/footprint_delta",
+        "payload_low_slots/65536/3/destroyed/accounted_storage_delta",
+        "payload_low_slots/65536/3/destroyed/footprint_delta",
+        "payload_low_slots/262144/0/baseline/accounted_storage_delta",
+        "payload_low_slots/262144/0/baseline/footprint_delta"
+      ]
+    },
+    {
+      "page": 112,
+      "section": "Memory comparison",
+      "cases": [
+        "payload_low_slots/262144/1/registered/accounted_storage_delta",
+        "payload_low_slots/262144/1/registered/footprint_delta",
+        "payload_low_slots/262144/2/populated/accounted_storage_delta",
+        "payload_low_slots/262144/2/populated/footprint_delta",
+        "payload_low_slots/262144/3/destroyed/accounted_storage_delta",
+        "payload_low_slots/262144/3/destroyed/footprint_delta",
+        "position/1024/0/baseline/accounted_storage_delta",
+        "position/1024/0/baseline/footprint_delta",
+        "position/1024/1/registered/accounted_storage_delta",
+        "position/1024/1/registered/footprint_delta",
+        "position/1024/2/populated/accounted_storage_delta",
+        "position/1024/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 113,
+      "section": "Memory comparison",
+      "cases": [
+        "position/1024/3/destroyed/accounted_storage_delta",
+        "position/1024/3/destroyed/footprint_delta",
+        "position/65536/0/baseline/accounted_storage_delta",
+        "position/65536/0/baseline/footprint_delta",
+        "position/65536/1/registered/accounted_storage_delta",
+        "position/65536/1/registered/footprint_delta",
+        "position/65536/2/populated/accounted_storage_delta",
+        "position/65536/2/populated/footprint_delta",
+        "position/65536/3/destroyed/accounted_storage_delta",
+        "position/65536/3/destroyed/footprint_delta",
+        "position/262144/0/baseline/accounted_storage_delta",
+        "position/262144/0/baseline/footprint_delta"
+      ]
+    },
+    {
+      "page": 114,
+      "section": "Memory comparison",
+      "cases": [
+        "position/262144/1/registered/accounted_storage_delta",
+        "position/262144/1/registered/footprint_delta",
+        "position/262144/2/populated/accounted_storage_delta",
+        "position/262144/2/populated/footprint_delta",
+        "position/262144/3/destroyed/accounted_storage_delta",
+        "position/262144/3/destroyed/footprint_delta",
+        "position_velocity/1024/0/baseline/accounted_storage_delta",
+        "position_velocity/1024/0/baseline/footprint_delta",
+        "position_velocity/1024/1/registered/accounted_storage_delta",
+        "position_velocity/1024/1/registered/footprint_delta",
+        "position_velocity/1024/2/populated/accounted_storage_delta",
+        "position_velocity/1024/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 115,
+      "section": "Memory comparison",
+      "cases": [
+        "position_velocity/1024/3/destroyed/accounted_storage_delta",
+        "position_velocity/1024/3/destroyed/footprint_delta",
+        "position_velocity/65536/0/baseline/accounted_storage_delta",
+        "position_velocity/65536/0/baseline/footprint_delta",
+        "position_velocity/65536/1/registered/accounted_storage_delta",
+        "position_velocity/65536/1/registered/footprint_delta",
+        "position_velocity/65536/2/populated/accounted_storage_delta",
+        "position_velocity/65536/2/populated/footprint_delta",
+        "position_velocity/65536/3/destroyed/accounted_storage_delta",
+        "position_velocity/65536/3/destroyed/footprint_delta",
+        "position_velocity/262144/0/baseline/accounted_storage_delta",
+        "position_velocity/262144/0/baseline/footprint_delta"
+      ]
+    },
+    {
+      "page": 116,
+      "section": "Memory comparison",
+      "cases": [
+        "position_velocity/262144/1/registered/accounted_storage_delta",
+        "position_velocity/262144/1/registered/footprint_delta",
+        "position_velocity/262144/2/populated/accounted_storage_delta",
+        "position_velocity/262144/2/populated/footprint_delta",
+        "position_velocity/262144/3/destroyed/accounted_storage_delta",
+        "position_velocity/262144/3/destroyed/footprint_delta",
+        "recycle/1024/0/baseline/accounted_storage_delta",
+        "recycle/1024/0/baseline/footprint_delta",
+        "recycle/1024/1/registered/accounted_storage_delta",
+        "recycle/1024/1/registered/footprint_delta",
+        "recycle/1024/2/populated/accounted_storage_delta",
+        "recycle/1024/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 117,
+      "section": "Memory comparison",
+      "cases": [
+        "recycle/1024/3/deleted/accounted_storage_delta",
+        "recycle/1024/3/deleted/footprint_delta",
+        "recycle/1024/4/regrown/accounted_storage_delta",
+        "recycle/1024/4/regrown/footprint_delta",
+        "recycle/1024/5/regrown/accounted_storage_delta",
+        "recycle/1024/5/regrown/footprint_delta",
+        "recycle/1024/6/regrown/accounted_storage_delta",
+        "recycle/1024/6/regrown/footprint_delta",
+        "recycle/1024/7/regrown/accounted_storage_delta",
+        "recycle/1024/7/regrown/footprint_delta",
+        "recycle/1024/8/destroyed/accounted_storage_delta",
+        "recycle/1024/8/destroyed/footprint_delta"
+      ]
+    },
+    {
+      "page": 118,
+      "section": "Memory comparison",
+      "cases": [
+        "recycle/65536/0/baseline/accounted_storage_delta",
+        "recycle/65536/0/baseline/footprint_delta",
+        "recycle/65536/1/registered/accounted_storage_delta",
+        "recycle/65536/1/registered/footprint_delta",
+        "recycle/65536/2/populated/accounted_storage_delta",
+        "recycle/65536/2/populated/footprint_delta",
+        "recycle/65536/3/deleted/accounted_storage_delta",
+        "recycle/65536/3/deleted/footprint_delta",
+        "recycle/65536/4/regrown/accounted_storage_delta",
+        "recycle/65536/4/regrown/footprint_delta",
+        "recycle/65536/5/regrown/accounted_storage_delta",
+        "recycle/65536/5/regrown/footprint_delta"
+      ]
+    },
+    {
+      "page": 119,
+      "section": "Memory comparison",
+      "cases": [
+        "recycle/65536/6/regrown/accounted_storage_delta",
+        "recycle/65536/6/regrown/footprint_delta",
+        "recycle/65536/7/regrown/accounted_storage_delta",
+        "recycle/65536/7/regrown/footprint_delta",
+        "recycle/65536/8/destroyed/accounted_storage_delta",
+        "recycle/65536/8/destroyed/footprint_delta",
+        "recycle/262144/0/baseline/accounted_storage_delta",
+        "recycle/262144/0/baseline/footprint_delta",
+        "recycle/262144/1/registered/accounted_storage_delta",
+        "recycle/262144/1/registered/footprint_delta",
+        "recycle/262144/2/populated/accounted_storage_delta",
+        "recycle/262144/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 120,
+      "section": "Memory comparison",
+      "cases": [
+        "recycle/262144/3/deleted/accounted_storage_delta",
+        "recycle/262144/3/deleted/footprint_delta",
+        "recycle/262144/4/regrown/accounted_storage_delta",
+        "recycle/262144/4/regrown/footprint_delta",
+        "recycle/262144/5/regrown/accounted_storage_delta",
+        "recycle/262144/5/regrown/footprint_delta",
+        "recycle/262144/6/regrown/accounted_storage_delta",
+        "recycle/262144/6/regrown/footprint_delta",
+        "recycle/262144/7/regrown/accounted_storage_delta",
+        "recycle/262144/7/regrown/footprint_delta",
+        "recycle/262144/8/destroyed/accounted_storage_delta",
+        "recycle/262144/8/destroyed/footprint_delta"
+      ]
+    },
+    {
+      "page": 121,
+      "section": "Memory comparison",
+      "cases": [
+        "remove_payload/1024/0/baseline/accounted_storage_delta",
+        "remove_payload/1024/0/baseline/footprint_delta",
+        "remove_payload/1024/1/registered/accounted_storage_delta",
+        "remove_payload/1024/1/registered/footprint_delta",
+        "remove_payload/1024/2/populated/accounted_storage_delta",
+        "remove_payload/1024/2/populated/footprint_delta",
+        "remove_payload/1024/3/removed/accounted_storage_delta",
+        "remove_payload/1024/3/removed/footprint_delta",
+        "remove_payload/1024/4/destroyed/accounted_storage_delta",
+        "remove_payload/1024/4/destroyed/footprint_delta",
+        "remove_payload/65536/0/baseline/accounted_storage_delta",
+        "remove_payload/65536/0/baseline/footprint_delta"
+      ]
+    },
+    {
+      "page": 122,
+      "section": "Memory comparison",
+      "cases": [
+        "remove_payload/65536/1/registered/accounted_storage_delta",
+        "remove_payload/65536/1/registered/footprint_delta",
+        "remove_payload/65536/2/populated/accounted_storage_delta",
+        "remove_payload/65536/2/populated/footprint_delta",
+        "remove_payload/65536/3/removed/accounted_storage_delta",
+        "remove_payload/65536/3/removed/footprint_delta",
+        "remove_payload/65536/4/destroyed/accounted_storage_delta",
+        "remove_payload/65536/4/destroyed/footprint_delta",
+        "remove_payload/262144/0/baseline/accounted_storage_delta",
+        "remove_payload/262144/0/baseline/footprint_delta",
+        "remove_payload/262144/1/registered/accounted_storage_delta",
+        "remove_payload/262144/1/registered/footprint_delta"
+      ]
+    },
+    {
+      "page": 123,
+      "section": "Memory comparison",
+      "cases": [
+        "remove_payload/262144/2/populated/accounted_storage_delta",
+        "remove_payload/262144/2/populated/footprint_delta",
+        "remove_payload/262144/3/removed/accounted_storage_delta",
+        "remove_payload/262144/3/removed/footprint_delta",
+        "remove_payload/262144/4/destroyed/accounted_storage_delta",
+        "remove_payload/262144/4/destroyed/footprint_delta",
+        "signature_cycles/1024/0/baseline/accounted_storage_delta",
+        "signature_cycles/1024/0/baseline/footprint_delta",
+        "signature_cycles/1024/1/registered/accounted_storage_delta",
+        "signature_cycles/1024/1/registered/footprint_delta",
+        "signature_cycles/1024/2/populated/accounted_storage_delta",
+        "signature_cycles/1024/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 124,
+      "section": "Memory comparison",
+      "cases": [
+        "signature_cycles/1024/3/shifted/accounted_storage_delta",
+        "signature_cycles/1024/3/shifted/footprint_delta",
+        "signature_cycles/1024/4/shifted/accounted_storage_delta",
+        "signature_cycles/1024/4/shifted/footprint_delta",
+        "signature_cycles/1024/5/shifted/accounted_storage_delta",
+        "signature_cycles/1024/5/shifted/footprint_delta",
+        "signature_cycles/1024/6/shifted/accounted_storage_delta",
+        "signature_cycles/1024/6/shifted/footprint_delta",
+        "signature_cycles/1024/7/destroyed/accounted_storage_delta",
+        "signature_cycles/1024/7/destroyed/footprint_delta",
+        "signature_cycles/65536/0/baseline/accounted_storage_delta",
+        "signature_cycles/65536/0/baseline/footprint_delta"
+      ]
+    },
+    {
+      "page": 125,
+      "section": "Memory comparison",
+      "cases": [
+        "signature_cycles/65536/1/registered/accounted_storage_delta",
+        "signature_cycles/65536/1/registered/footprint_delta",
+        "signature_cycles/65536/2/populated/accounted_storage_delta",
+        "signature_cycles/65536/2/populated/footprint_delta",
+        "signature_cycles/65536/3/shifted/accounted_storage_delta",
+        "signature_cycles/65536/3/shifted/footprint_delta",
+        "signature_cycles/65536/4/shifted/accounted_storage_delta",
+        "signature_cycles/65536/4/shifted/footprint_delta",
+        "signature_cycles/65536/5/shifted/accounted_storage_delta",
+        "signature_cycles/65536/5/shifted/footprint_delta",
+        "signature_cycles/65536/6/shifted/accounted_storage_delta",
+        "signature_cycles/65536/6/shifted/footprint_delta"
+      ]
+    },
+    {
+      "page": 126,
+      "section": "Memory comparison",
+      "cases": [
+        "signature_cycles/65536/7/destroyed/accounted_storage_delta",
+        "signature_cycles/65536/7/destroyed/footprint_delta",
+        "signature_cycles/262144/0/baseline/accounted_storage_delta",
+        "signature_cycles/262144/0/baseline/footprint_delta",
+        "signature_cycles/262144/1/registered/accounted_storage_delta",
+        "signature_cycles/262144/1/registered/footprint_delta",
+        "signature_cycles/262144/2/populated/accounted_storage_delta",
+        "signature_cycles/262144/2/populated/footprint_delta",
+        "signature_cycles/262144/3/shifted/accounted_storage_delta",
+        "signature_cycles/262144/3/shifted/footprint_delta",
+        "signature_cycles/262144/4/shifted/accounted_storage_delta",
+        "signature_cycles/262144/4/shifted/footprint_delta"
+      ]
+    },
+    {
+      "page": 127,
+      "section": "Memory comparison",
+      "cases": [
+        "signature_cycles/262144/5/shifted/accounted_storage_delta",
+        "signature_cycles/262144/5/shifted/footprint_delta",
+        "signature_cycles/262144/6/shifted/accounted_storage_delta",
+        "signature_cycles/262144/6/shifted/footprint_delta",
+        "signature_cycles/262144/7/destroyed/accounted_storage_delta",
+        "signature_cycles/262144/7/destroyed/footprint_delta",
+        "sparse_payload/1024/0/baseline/accounted_storage_delta",
+        "sparse_payload/1024/0/baseline/footprint_delta",
+        "sparse_payload/1024/1/registered/accounted_storage_delta",
+        "sparse_payload/1024/1/registered/footprint_delta",
+        "sparse_payload/1024/2/populated/accounted_storage_delta",
+        "sparse_payload/1024/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 128,
+      "section": "Memory comparison",
+      "cases": [
+        "sparse_payload/1024/3/destroyed/accounted_storage_delta",
+        "sparse_payload/1024/3/destroyed/footprint_delta",
+        "sparse_payload/65536/0/baseline/accounted_storage_delta",
+        "sparse_payload/65536/0/baseline/footprint_delta",
+        "sparse_payload/65536/1/registered/accounted_storage_delta",
+        "sparse_payload/65536/1/registered/footprint_delta",
+        "sparse_payload/65536/2/populated/accounted_storage_delta",
+        "sparse_payload/65536/2/populated/footprint_delta",
+        "sparse_payload/65536/3/destroyed/accounted_storage_delta",
+        "sparse_payload/65536/3/destroyed/footprint_delta",
+        "sparse_payload/262144/0/baseline/accounted_storage_delta",
+        "sparse_payload/262144/0/baseline/footprint_delta"
+      ]
+    },
+    {
+      "page": 129,
+      "section": "Memory comparison",
+      "cases": [
+        "sparse_payload/262144/1/registered/accounted_storage_delta",
+        "sparse_payload/262144/1/registered/footprint_delta",
+        "sparse_payload/262144/2/populated/accounted_storage_delta",
+        "sparse_payload/262144/2/populated/footprint_delta",
+        "sparse_payload/262144/3/destroyed/accounted_storage_delta",
+        "sparse_payload/262144/3/destroyed/footprint_delta",
+        "sparse_payload_01/1024/0/baseline/accounted_storage_delta",
+        "sparse_payload_01/1024/0/baseline/footprint_delta",
+        "sparse_payload_01/1024/1/registered/accounted_storage_delta",
+        "sparse_payload_01/1024/1/registered/footprint_delta",
+        "sparse_payload_01/1024/2/populated/accounted_storage_delta",
+        "sparse_payload_01/1024/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 130,
+      "section": "Memory comparison",
+      "cases": [
+        "sparse_payload_01/1024/3/destroyed/accounted_storage_delta",
+        "sparse_payload_01/1024/3/destroyed/footprint_delta",
+        "sparse_payload_01/65536/0/baseline/accounted_storage_delta",
+        "sparse_payload_01/65536/0/baseline/footprint_delta",
+        "sparse_payload_01/65536/1/registered/accounted_storage_delta",
+        "sparse_payload_01/65536/1/registered/footprint_delta",
+        "sparse_payload_01/65536/2/populated/accounted_storage_delta",
+        "sparse_payload_01/65536/2/populated/footprint_delta",
+        "sparse_payload_01/65536/3/destroyed/accounted_storage_delta",
+        "sparse_payload_01/65536/3/destroyed/footprint_delta",
+        "sparse_payload_01/262144/0/baseline/accounted_storage_delta",
+        "sparse_payload_01/262144/0/baseline/footprint_delta"
+      ]
+    },
+    {
+      "page": 131,
+      "section": "Memory comparison",
+      "cases": [
+        "sparse_payload_01/262144/1/registered/accounted_storage_delta",
+        "sparse_payload_01/262144/1/registered/footprint_delta",
+        "sparse_payload_01/262144/2/populated/accounted_storage_delta",
+        "sparse_payload_01/262144/2/populated/footprint_delta",
+        "sparse_payload_01/262144/3/destroyed/accounted_storage_delta",
+        "sparse_payload_01/262144/3/destroyed/footprint_delta",
+        "sparse_payload_10/1024/0/baseline/accounted_storage_delta",
+        "sparse_payload_10/1024/0/baseline/footprint_delta",
+        "sparse_payload_10/1024/1/registered/accounted_storage_delta",
+        "sparse_payload_10/1024/1/registered/footprint_delta",
+        "sparse_payload_10/1024/2/populated/accounted_storage_delta",
+        "sparse_payload_10/1024/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 132,
+      "section": "Memory comparison",
+      "cases": [
+        "sparse_payload_10/1024/3/destroyed/accounted_storage_delta",
+        "sparse_payload_10/1024/3/destroyed/footprint_delta",
+        "sparse_payload_10/65536/0/baseline/accounted_storage_delta",
+        "sparse_payload_10/65536/0/baseline/footprint_delta",
+        "sparse_payload_10/65536/1/registered/accounted_storage_delta",
+        "sparse_payload_10/65536/1/registered/footprint_delta",
+        "sparse_payload_10/65536/2/populated/accounted_storage_delta",
+        "sparse_payload_10/65536/2/populated/footprint_delta",
+        "sparse_payload_10/65536/3/destroyed/accounted_storage_delta",
+        "sparse_payload_10/65536/3/destroyed/footprint_delta",
+        "sparse_payload_10/262144/0/baseline/accounted_storage_delta",
+        "sparse_payload_10/262144/0/baseline/footprint_delta"
+      ]
+    },
+    {
+      "page": 133,
+      "section": "Memory comparison",
+      "cases": [
+        "sparse_payload_10/262144/1/registered/accounted_storage_delta",
+        "sparse_payload_10/262144/1/registered/footprint_delta",
+        "sparse_payload_10/262144/2/populated/accounted_storage_delta",
+        "sparse_payload_10/262144/2/populated/footprint_delta",
+        "sparse_payload_10/262144/3/destroyed/accounted_storage_delta",
+        "sparse_payload_10/262144/3/destroyed/footprint_delta",
+        "world_cycles/1024/0/baseline/accounted_storage_delta",
+        "world_cycles/1024/0/baseline/footprint_delta",
+        "world_cycles/1024/1/registered/accounted_storage_delta",
+        "world_cycles/1024/1/registered/footprint_delta",
+        "world_cycles/1024/2/populated/accounted_storage_delta",
+        "world_cycles/1024/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 134,
+      "section": "Memory comparison",
+      "cases": [
+        "world_cycles/1024/3/world_destroyed/accounted_storage_delta",
+        "world_cycles/1024/3/world_destroyed/footprint_delta",
+        "world_cycles/1024/4/registered_again/accounted_storage_delta",
+        "world_cycles/1024/4/registered_again/footprint_delta",
+        "world_cycles/1024/5/recreated/accounted_storage_delta",
+        "world_cycles/1024/5/recreated/footprint_delta",
+        "world_cycles/1024/6/world_destroyed/accounted_storage_delta",
+        "world_cycles/1024/6/world_destroyed/footprint_delta",
+        "world_cycles/1024/7/registered_again/accounted_storage_delta",
+        "world_cycles/1024/7/registered_again/footprint_delta",
+        "world_cycles/1024/8/recreated/accounted_storage_delta",
+        "world_cycles/1024/8/recreated/footprint_delta"
+      ]
+    },
+    {
+      "page": 135,
+      "section": "Memory comparison",
+      "cases": [
+        "world_cycles/1024/9/world_destroyed/accounted_storage_delta",
+        "world_cycles/1024/9/world_destroyed/footprint_delta",
+        "world_cycles/1024/10/registered_again/accounted_storage_delta",
+        "world_cycles/1024/10/registered_again/footprint_delta",
+        "world_cycles/1024/11/recreated/accounted_storage_delta",
+        "world_cycles/1024/11/recreated/footprint_delta",
+        "world_cycles/1024/12/world_destroyed/accounted_storage_delta",
+        "world_cycles/1024/12/world_destroyed/footprint_delta",
+        "world_cycles/1024/13/registered_again/accounted_storage_delta",
+        "world_cycles/1024/13/registered_again/footprint_delta",
+        "world_cycles/1024/14/recreated/accounted_storage_delta",
+        "world_cycles/1024/14/recreated/footprint_delta"
+      ]
+    },
+    {
+      "page": 136,
+      "section": "Memory comparison",
+      "cases": [
+        "world_cycles/1024/15/destroyed/accounted_storage_delta",
+        "world_cycles/1024/15/destroyed/footprint_delta",
+        "world_cycles/65536/0/baseline/accounted_storage_delta",
+        "world_cycles/65536/0/baseline/footprint_delta",
+        "world_cycles/65536/1/registered/accounted_storage_delta",
+        "world_cycles/65536/1/registered/footprint_delta",
+        "world_cycles/65536/2/populated/accounted_storage_delta",
+        "world_cycles/65536/2/populated/footprint_delta",
+        "world_cycles/65536/3/world_destroyed/accounted_storage_delta",
+        "world_cycles/65536/3/world_destroyed/footprint_delta",
+        "world_cycles/65536/4/registered_again/accounted_storage_delta",
+        "world_cycles/65536/4/registered_again/footprint_delta"
+      ]
+    },
+    {
+      "page": 137,
+      "section": "Memory comparison",
+      "cases": [
+        "world_cycles/65536/5/recreated/accounted_storage_delta",
+        "world_cycles/65536/5/recreated/footprint_delta",
+        "world_cycles/65536/6/world_destroyed/accounted_storage_delta",
+        "world_cycles/65536/6/world_destroyed/footprint_delta",
+        "world_cycles/65536/7/registered_again/accounted_storage_delta",
+        "world_cycles/65536/7/registered_again/footprint_delta",
+        "world_cycles/65536/8/recreated/accounted_storage_delta",
+        "world_cycles/65536/8/recreated/footprint_delta",
+        "world_cycles/65536/9/world_destroyed/accounted_storage_delta",
+        "world_cycles/65536/9/world_destroyed/footprint_delta",
+        "world_cycles/65536/10/registered_again/accounted_storage_delta",
+        "world_cycles/65536/10/registered_again/footprint_delta"
+      ]
+    },
+    {
+      "page": 138,
+      "section": "Memory comparison",
+      "cases": [
+        "world_cycles/65536/11/recreated/accounted_storage_delta",
+        "world_cycles/65536/11/recreated/footprint_delta",
+        "world_cycles/65536/12/world_destroyed/accounted_storage_delta",
+        "world_cycles/65536/12/world_destroyed/footprint_delta",
+        "world_cycles/65536/13/registered_again/accounted_storage_delta",
+        "world_cycles/65536/13/registered_again/footprint_delta",
+        "world_cycles/65536/14/recreated/accounted_storage_delta",
+        "world_cycles/65536/14/recreated/footprint_delta",
+        "world_cycles/65536/15/destroyed/accounted_storage_delta",
+        "world_cycles/65536/15/destroyed/footprint_delta",
+        "world_cycles/262144/0/baseline/accounted_storage_delta",
+        "world_cycles/262144/0/baseline/footprint_delta"
+      ]
+    },
+    {
+      "page": 139,
+      "section": "Memory comparison",
+      "cases": [
+        "world_cycles/262144/1/registered/accounted_storage_delta",
+        "world_cycles/262144/1/registered/footprint_delta",
+        "world_cycles/262144/2/populated/accounted_storage_delta",
+        "world_cycles/262144/2/populated/footprint_delta",
+        "world_cycles/262144/3/world_destroyed/accounted_storage_delta",
+        "world_cycles/262144/3/world_destroyed/footprint_delta",
+        "world_cycles/262144/4/registered_again/accounted_storage_delta",
+        "world_cycles/262144/4/registered_again/footprint_delta",
+        "world_cycles/262144/5/recreated/accounted_storage_delta",
+        "world_cycles/262144/5/recreated/footprint_delta",
+        "world_cycles/262144/6/world_destroyed/accounted_storage_delta",
+        "world_cycles/262144/6/world_destroyed/footprint_delta"
+      ]
+    },
+    {
+      "page": 140,
+      "section": "Memory comparison",
+      "cases": [
+        "world_cycles/262144/7/registered_again/accounted_storage_delta",
+        "world_cycles/262144/7/registered_again/footprint_delta",
+        "world_cycles/262144/8/recreated/accounted_storage_delta",
+        "world_cycles/262144/8/recreated/footprint_delta",
+        "world_cycles/262144/9/world_destroyed/accounted_storage_delta",
+        "world_cycles/262144/9/world_destroyed/footprint_delta",
+        "world_cycles/262144/10/registered_again/accounted_storage_delta",
+        "world_cycles/262144/10/registered_again/footprint_delta",
+        "world_cycles/262144/11/recreated/accounted_storage_delta",
+        "world_cycles/262144/11/recreated/footprint_delta",
+        "world_cycles/262144/12/world_destroyed/accounted_storage_delta",
+        "world_cycles/262144/12/world_destroyed/footprint_delta"
+      ]
+    },
+    {
+      "page": 141,
+      "section": "Memory comparison",
+      "cases": [
+        "world_cycles/262144/13/registered_again/accounted_storage_delta",
+        "world_cycles/262144/13/registered_again/footprint_delta",
+        "world_cycles/262144/14/recreated/accounted_storage_delta",
+        "world_cycles/262144/14/recreated/footprint_delta",
+        "world_cycles/262144/15/destroyed/accounted_storage_delta",
+        "world_cycles/262144/15/destroyed/footprint_delta",
+        "world_only/0/0/baseline/accounted_storage_delta",
+        "world_only/0/0/baseline/footprint_delta",
+        "world_only/0/1/registered/accounted_storage_delta",
+        "world_only/0/1/registered/footprint_delta",
+        "world_only/0/2/populated/accounted_storage_delta",
+        "world_only/0/2/populated/footprint_delta"
+      ]
+    },
+    {
+      "page": 142,
+      "section": "Memory comparison",
+      "cases": [
+        "world_only/0/3/destroyed/accounted_storage_delta",
+        "world_only/0/3/destroyed/footprint_delta"
+      ]
+    }
+  ],
+  "inputs": {
+    "results/promotion-v121-entities/metadata.json": "6b96f2a995426772b76fdf4eaaed1fef245daa95453e7381df805a636226f5f8",
+    "results/promotion-v121-entities/raw.jsonl": "417a9c51135888885901058f914d342bd3889eff4e1cdde149898b3619a62aa5",
+    "results/promotion-v121-entities/summary.csv": "b622ae4edf50ab16053e9fb6c1d1962e1987a16f0518d312c4236073d96d7672",
+    "results/promotion-v121-first-use/metadata.json": "a25acac08c1f69b1b1f6f7314af28d01406a4815062108406d6e1c6c85422db3",
+    "results/promotion-v121-first-use/summary.csv": "7c0ebef211076b9d483abc4df0af9e0e440b5f9d206a67035243a5e208e16b93",
+    "results/promotion-v121-indexed/metadata.json": "39dde09e3708cf275be15a09a473ecadeed3ac8fd4fd6f9d6177aa6a4ad37bce",
+    "results/promotion-v121-indexed/raw.jsonl": "401d32e3c971c4f0e7eb6cb75acae92b35b262a7f55efed77e21d77f4c518fd6",
+    "results/promotion-v121-indexed/summary.csv": "2cf9c7e7773fef89895073c6ae24695f9a8b4a9d48ee962d41f90d489a18fb43",
+    "results/promotion-v121-memory/metadata.json": "b267352970f0674d7196eaafb2177ae3fd4aab79c802f9892b0ad7c8b02d169a",
+    "results/promotion-v121-memory/raw.jsonl": "6b0b0e461459a44c90e6dedaec2ee726e0eea7187f78c179097c2a83c0b5beb9",
+    "results/promotion-v121-memory/summary.csv": "0f18ebde38669f6c0b98d484e1ad5f83b6db6d94c152bfce43f3b32d6004a940",
+    "results/promotion-v121-original/metadata.json": "db297312fb42ef528557700c6fc39ff594ad1ddd31cbbe539295e5fc60f0de61",
+    "results/promotion-v121-original/raw.jsonl": "7eeb329421bffafbb48991c66ae7c4cde1a59cc7009948a93181aa2a15fc488c",
+    "results/promotion-v121-original/summary.csv": "88218582985958f6c0b2a70721d2853e241bdb94e8568f44f2adf423056f3854",
+    "results/promotion-v121-packed/metadata.json": "e171161487fc9726e66e782a184691eb09902bc022b1c0c5b6eba0211d7f4050",
+    "results/promotion-v121-packed/raw.jsonl": "7d00bba998be6ce5b16ecc89bc0331e9519bf5b5db8e4c5346d0bb1ad8a4869b",
+    "results/promotion-v121-packed/summary.csv": "ca558a6d442edf1808ac86abca07af9db3c0f37ec4ae31acd02c7d748c046ea8",
+    "results/promotion-v121-query-memory/metadata.json": "36e82b4907839ff0b464b997d3d2c2157034d5a288b77b4bd387f41eee7f33cf",
+    "results/promotion-v121-query-memory/summary.csv": "3a9e8e1c4c6dcded8bdc711019ad472a63941760746d239c0ee921732bc1217a",
+    "results/promotion-v121-registry/metadata.json": "2ea034acd86f0ad08427af9ebf0333b8593555cc0b44e89b2acf23df8f2c4d40",
+    "results/promotion-v121-registry/raw.jsonl": "1ac44f257b2db2e08973fa0523b31c62bdaffc469ce47134c4ef2f00570ef2de",
+    "results/promotion-v121-registry/summary.csv": "3e563444135add44020e34d1b30e4cade00f60fce39f544472d7e1694bc76bcc"
+  },
+  "outputs": {
+    "entity-tables.md": "cca254e0adb903363a0b24cdef494a9fb49feca90b01c160d1e8b2978260ee2a",
+    "complete-timings.md": "5f424289e1f0596254a0380459748c0387276b7f623de5244b007dda300c9b88",
+    "compact-table.txt": "840790b5468a9edd34efb00d3d33a3a38ad2092af1098ad5143f2737aceffa12",
+    "comparison.png": "5b361eaaccd4aa734031c420ecfd30c182999e593ed2672c663acda8a2d93a38",
+    "comparison.svg": "9dcbcb0a5a11059a1357e770f625d62b785b3194828b4b1d4e2898f2bc0ce0c6",
+    "comparison.pdf": "42cfef50de9e97fb6cc284771aa887cf96529961a8ce90b65d6a60f47a613a8a",
+    "read-throughput.png": "76e6e3fa6ed8dafa687cb0333394cc8b4722609a89411e6947f235caa59a42a4",
+    "read-throughput.svg": "15d95839066edc45c8de2a4a0b0b438d26ef2a4f737c415a3d1c4b330004506d",
+    "read-throughput.pdf": "8854f775c81aa53a5e348038b681820db979ffbf6412781545d2c9779b3fd610",
+    "lifecycle-throughput.png": "8a6203cce045e17351a12f24d7f9de858a84bdc165709b5f3ed65f884cdbd44a",
+    "lifecycle-throughput.svg": "6e4b2701907ba526bdd883e5ea41abb344e219db71f9aac3538f2493d12174a7",
+    "lifecycle-throughput.pdf": "31e559afbd2d1052c648d9b488b1725ae2eb488d07823bb5868e30173339d199",
+    "comparison-entities.png": "d5b5703664847b3b1a86474162721443c8416ff0cebdae30d909f6ef4f86f8df",
+    "comparison-entities.svg": "0787a7838d69a18a36b00788f6fbfb07f358a9a6002c8b61a5fc4039cd9ea98a",
+    "comparison-entities.pdf": "5e45bdf322df9e8c4db11721b25aa508c0674ee2486f4100b02865ca86cc92c4",
+    "comparison-complete.png": "24ff3977b463cdaba2cb1df3864445d4d98feecf3e356ea99e13878f4a549a33",
+    "comparison-complete.svg": "8f08b63a6c212006ce2947d9fe273fbb5cbcc64ae3909ce9e23a44737fff4972",
+    "comparison-complete.pdf": "f127bbe1c7872e8d98d2664be4bd5cb932a8b3f9135506b04538c556673332ae",
+    "concurrent-registry.png": "107fe601aafdfdcfcea764e045be885923c8fbd68e500caada0c3a6c442f32a6",
+    "concurrent-registry.svg": "0ce9d7647c61aa4a7600ecbe6c7a1ae43c3978e0df17679fab1de1ddeec96a10",
+    "concurrent-registry.pdf": "cfe359cbd1eceff2ae556a1b59e1649fd4a56a14142b5670ed932e15b56b35ea",
+    "concurrent-registry-complete.png": "653137fc205d9d23709c54f85c3e5af42c9f2832408def237d79cd06ee73b348",
+    "concurrent-registry-complete.svg": "6d0469392405f1043d361dd7adfecf2f283d9be736f98bb88c4567bb5f0db7d9",
+    "concurrent-registry-complete.pdf": "d6025675768dc8609d5abe03549694870557c6fe1d24e72964904cd7271ee40a",
+    "memory.png": "9bad7ee70b0633bbf03e17bdb26afd1a1c7f126c7524af11932248fc44c5301a",
+    "memory.svg": "0b93e2956d6053a3f47de9f6b4255cf82629432c3616b486a0c90752fd43479c",
+    "memory.pdf": "591e539784adc901b4c37d20896826f4c209bae270ba94cf15b659a25fca4af6",
+    "benchmark-atlas.pdf": "573de06682aae4a4c376ff1b59a8beef6e7d405d93d95f89bd15a10c47ab9e28",
+    "plotted-values.csv": "2ffb401a8ca052a7df404b061e0a9c4b5b71dddf7576a5299b90a5eac02ad364",
+    "data/entities-metadata.json": "6b96f2a995426772b76fdf4eaaed1fef245daa95453e7381df805a636226f5f8",
+    "data/entities-summary.csv": "b622ae4edf50ab16053e9fb6c1d1962e1987a16f0518d312c4236073d96d7672",
+    "data/first-use-metadata.json": "a25acac08c1f69b1b1f6f7314af28d01406a4815062108406d6e1c6c85422db3",
+    "data/first-use-summary.csv": "7c0ebef211076b9d483abc4df0af9e0e440b5f9d206a67035243a5e208e16b93",
+    "data/indexed-metadata.json": "39dde09e3708cf275be15a09a473ecadeed3ac8fd4fd6f9d6177aa6a4ad37bce",
+    "data/indexed-summary.csv": "2cf9c7e7773fef89895073c6ae24695f9a8b4a9d48ee962d41f90d489a18fb43",
+    "data/memory-metadata.json": "b267352970f0674d7196eaafb2177ae3fd4aab79c802f9892b0ad7c8b02d169a",
+    "data/memory-summary.csv": "0f18ebde38669f6c0b98d484e1ad5f83b6db6d94c152bfce43f3b32d6004a940",
+    "data/original-metadata.json": "db297312fb42ef528557700c6fc39ff594ad1ddd31cbbe539295e5fc60f0de61",
+    "data/original-summary.csv": "88218582985958f6c0b2a70721d2853e241bdb94e8568f44f2adf423056f3854",
+    "data/packed-metadata.json": "e171161487fc9726e66e782a184691eb09902bc022b1c0c5b6eba0211d7f4050",
+    "data/packed-summary.csv": "ca558a6d442edf1808ac86abca07af9db3c0f37ec4ae31acd02c7d748c046ea8",
+    "data/query-memory-metadata.json": "36e82b4907839ff0b464b997d3d2c2157034d5a288b77b4bd387f41eee7f33cf",
+    "data/query-memory-summary.csv": "3a9e8e1c4c6dcded8bdc711019ad472a63941760746d239c0ee921732bc1217a",
+    "data/registry-metadata.json": "2ea034acd86f0ad08427af9ebf0333b8593555cc0b44e89b2acf23df8f2c4d40",
+    "data/registry-summary.csv": "3e563444135add44020e34d1b30e4cade00f60fce39f544472d7e1694bc76bcc"
+  },
+  "plot_source_sha256": "1597c0b85561aa16f6e9f7ae914db2a22fd948e0c688fa498a43175f433a91a8",
+  "encoding": "Kama-style zero-origin horizontal throughput bars. Grid panels and complete-poster cases scale independently from zero; registry overview shares one scale. Mop/s=1000/median ns/op, not a median of reciprocal samples. Entity operations normalize by actual visited counters; empty-world is per world. Whiskers convert latency IQR endpoints. Memory uses linear baseline-delta MiB and lower is better. No best-pass selection or outcome-based case selection. Compact subset: all nine entity operations at the largest input. Losses remain visible."
+}
